@@ -32,7 +32,6 @@
 /* Include core modules */
 #include "stm32f2xx.h"
 
-
 // Include FreeRTOS
 #include "FreeRTOS.h"
 #include "task.h"
