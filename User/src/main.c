@@ -32,7 +32,6 @@
 /* Include core modules */
 #include "stm32f2xx.h"
 
-
 // Include FreeRTOS
 #include "FreeRTOS.h"
 #include "task.h"
@@ -44,7 +43,7 @@
 //#include "TS_queue.h"
 //#include "Config.h"
 //#include "Measure.h"
-//#include "ClockOutMCO.h"
+#include "ClockOutMCO.h"
 
 #define	ERROR_ACTION( CODE,POS )		do{}while( 0 )
 
@@ -100,11 +99,9 @@ void vApplicationTickHook( void )
 /*******************************************************************/    
 
 int main(void) {
-
 	SystemInit();
 
-
-//    OutputMCO();
+    OutputMCO();
     
 	xQueue_DebugLed = xQueueCreate( 5, sizeof( enum stateDebugLed ) ); 
 //	xQueue_SDCardLed = xQueueCreate( 5, sizeof( enum stateSDCardLed ) ); 
