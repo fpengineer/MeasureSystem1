@@ -24,20 +24,20 @@ void vTask_DebugLed( void *pvParameters )
 {
     extern QueueHandle_t xQueue_DebugLed;
 //    extern QueueHandle_t xQueue_Terminal;
-    enum stateStatusLed stateStatusLed = STATUS_LED_OFF;
-    TickType_t timeout = portMAX_DELAY;
+    enum stateStatusLed stateStatusLed = STATUS_LED_FLASH;
+    TickType_t timeout = 0;
     
-// Init LED gpio pin
-/*
-    TM_GPIO_Init(GPIOC,
-                 GPIO_PIN_0,
-                 TM_GPIO_Mode_OUT,
-                 TM_GPIO_OType_PP,
-                 TM_GPIO_PuPd_NOPULL,
-                 TM_GPIO_Speed_Medium);
-*/
+    GPIO_InitTypeDef GPIO_InitStructure; 
 
-//    TM_GPIO_SetPinLow(GPIOC, GPIO_Pin_0);
+// Init LED gpio pin
+    GPIO_InitStructure.Pin   = GPIO_PIN_11;
+    GPIO_InitStructure.Mode  = GPIO_MODE_OUTPUT_PP;
+    GPIO_InitStructure.Pull  = GPIO_PULLUP;
+    GPIO_InitStructure.Speed = GPIO_SPEED_MEDIUM;
+
+    __HAL_RCC_GPIOE_CLK_ENABLE();
+    
+    HAL_GPIO_Init(GPIOE, &GPIO_InitStructure);
 
 	while (1)
 	{
@@ -48,19 +48,19 @@ void vTask_DebugLed( void *pvParameters )
             case STATUS_LED_ON:
                 /* Enable Led */
                 timeout = portMAX_DELAY;
-//                TM_GPIO_SetPinHigh(GPIOC, GPIO_Pin_0);
+                HAL_GPIO_WritePin(GPIOE, GPIO_PIN_11, GPIO_PIN_SET);
                 break;
                 
             case STATUS_LED_OFF:
                 /* Disable Led */
                 timeout = portMAX_DELAY;
-//                TM_GPIO_SetPinLow(GPIOC, GPIO_Pin_0);
+                HAL_GPIO_WritePin(GPIOE, GPIO_PIN_11, GPIO_PIN_RESET);
                 break;
                 
             case STATUS_LED_FLASH:
                 /* Toggle Led */
                 timeout = 500 / portTICK_PERIOD_MS;
-//                TM_GPIO_TogglePinValue(GPIOC, GPIO_Pin_0);
+                HAL_GPIO_TogglePin(GPIOE, GPIO_PIN_11);   
                 break;
                 
             default:
