@@ -53,7 +53,7 @@ TaskHandle_t xTask_DebugLed;
 //TaskHandle_t xTask_MainMeasure;
 //TaskHandle_t xTask_FatFs;
 TaskHandle_t xTask_Terminal;
-//TaskHandle_t xTask_HardwareSPI2;
+TaskHandle_t xTask_HwSPI2;
 //TaskHandle_t xTask_SystemTime;
 //TaskHandle_t xTask_RunButton;
 //TaskHandle_t xTask_SDCardDetect;
@@ -65,7 +65,7 @@ QueueHandle_t xQueue_DebugLed;
 //QueueHandle_t xQueue_FatFsIn;
 //QueueHandle_t xQueue_FatFsOut;
 QueueHandle_t xQueue_Terminal;
-//QueueHandle_t xQueue_HardwareSPI2;
+QueueHandle_t xQueue_HwSPI2;
 //QueueHandle_t xQueue_SystemTimeIn;
 //QueueHandle_t xQueue_SystemTimeOut;
 
@@ -112,7 +112,7 @@ int main(void) {
 //	xQueue_FatFsIn = xQueueCreate( 10, sizeof( FatFsQueueData_t ) ); 
 //	xQueue_FatFsOut = xQueueCreate( 10, sizeof( FatFsQueueData_t ) ); 
 	xQueue_Terminal = xQueueCreate( 15, sizeof( char[500] ) ); 
-//	xQueue_HardwareSPI2 = xQueueCreate( 15, sizeof( enum stateHardwareSPI2 ) ); 
+	xQueue_HwSPI2 = xQueueCreate( 5, sizeof( enum stateHwSPI2 ) ); 
 //	xQueue_SystemTimeIn = xQueueCreate( 5, sizeof( SystemTimeQueueData_t ) ); 
 //	xQueue_SystemTimeOut = xQueueCreate( 5, sizeof( SystemTimeQueueData_t ) ); 
 
@@ -160,6 +160,14 @@ int main(void) {
     if( pdTRUE != xTaskCreate(  vTask_Terminal,
                                 "Terminal",
                                 configMINIMAL_STACK_SIZE +500,
+                                NULL,
+                                tskIDLE_PRIORITY + 1,
+                                &xTask_Terminal )) { ERROR_ACTION(TASK_NOT_CREATE,0); }	
+#endif
+#if 1	
+    if( pdTRUE != xTaskCreate(  vTask_HwSPI2,
+                                "HwSPI2",
+                                configMINIMAL_STACK_SIZE,
                                 NULL,
                                 tskIDLE_PRIORITY + 1,
                                 &xTask_Terminal )) { ERROR_ACTION(TASK_NOT_CREATE,0); }	

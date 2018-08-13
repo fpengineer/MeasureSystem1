@@ -48,7 +48,7 @@ enum stateFatFs {
     FATFS_IDLE 
 };
 
-enum stateHardwareSPI2 { 
+enum stateHwSPI2 { 
     SPI2_RELAY_ON,
     SPI2_RELAY_OFF,
     SPI2_RELAY_CLEAR_ALL,
@@ -56,7 +56,8 @@ enum stateHardwareSPI2 {
     SPI2_LEDS_CONTACT_SET,
     SPI2_LEDS_SHIFT_DOWN,
     SPI2_LEDS_CLEAR_ALL,
-    SPI2_HW_SUPPLY_SET,
+    SPI2_HV_SUPPLY_SET,
+    SPI2_CURRENT_MEASURE_GET,
     SPI2_IDLE 
 };
 
@@ -75,7 +76,7 @@ void vTask_DebugLed(void *pvParameters);
 //void vTask_MainMeasure(void *pvParameters);
 //void vTask_FatFs(void *pvParameters);
 void vTask_Terminal(void *pvParameters);
-//void vTask_HardwareSPI2(void *pvParameters);
+void vTask_HwSPI2(void *pvParameters);
 //void vTask_SystemTime(void *pvParameters);
 //void vTask_RunButton(void *pvParameters);
 //void vTask_SDCardDetect(void *pvParameters);
