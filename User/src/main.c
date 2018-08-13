@@ -52,7 +52,8 @@ TaskHandle_t xTask_DebugLed;
 //TaskHandle_t xTask_StatusLed;
 //TaskHandle_t xTask_MainMeasure;
 //TaskHandle_t xTask_FatFs;
-//TaskHandle_t xTask_Terminal;
+TaskHandle_t xTask_Terminal;
+//TaskHandle_t xTask_HardwareSPI2;
 //TaskHandle_t xTask_SystemTime;
 //TaskHandle_t xTask_RunButton;
 //TaskHandle_t xTask_SDCardDetect;
@@ -63,7 +64,8 @@ QueueHandle_t xQueue_DebugLed;
 //QueueHandle_t xQueue_MainMeasure;
 //QueueHandle_t xQueue_FatFsIn;
 //QueueHandle_t xQueue_FatFsOut;
-//QueueHandle_t xQueue_Terminal;
+QueueHandle_t xQueue_Terminal;
+//QueueHandle_t xQueue_HardwareSPI2;
 //QueueHandle_t xQueue_SystemTimeIn;
 //QueueHandle_t xQueue_SystemTimeOut;
 
@@ -109,72 +111,76 @@ int main(void) {
 //	xQueue_MainMeasure = xQueueCreate( 5, sizeof( MainMeasureQueueData_t ) ); 
 //	xQueue_FatFsIn = xQueueCreate( 10, sizeof( FatFsQueueData_t ) ); 
 //	xQueue_FatFsOut = xQueueCreate( 10, sizeof( FatFsQueueData_t ) ); 
-//	xQueue_Terminal = xQueueCreate( 15, sizeof( char[1800] ) ); 
+	xQueue_Terminal = xQueueCreate( 15, sizeof( char[500] ) ); 
+//	xQueue_HardwareSPI2 = xQueueCreate( 15, sizeof( enum stateHardwareSPI2 ) ); 
 //	xQueue_SystemTimeIn = xQueueCreate( 5, sizeof( SystemTimeQueueData_t ) ); 
 //	xQueue_SystemTimeOut = xQueueCreate( 5, sizeof( SystemTimeQueueData_t ) ); 
 
-
+#if 1
 	if( pdTRUE != xTaskCreate(  vTask_DebugLed,
                                 "Debug Led",
                                 configMINIMAL_STACK_SIZE,
                                 NULL,
                                 tskIDLE_PRIORITY + 1,
                                 &xTask_DebugLed )) { ERROR_ACTION(TASK_NOT_CREATE,0); }	
-
-/*
+#endif
+#if 0
 	if( pdTRUE != xTaskCreate(  vTask_SDCardLed,
                                 "SD Card Led",
                                 configMINIMAL_STACK_SIZE,
                                 NULL,
                                 tskIDLE_PRIORITY + 1,
                                 &xTask_SDCardLed )) { ERROR_ACTION(TASK_NOT_CREATE,0); }	
-
+#endif
+#if 0
 	if( pdTRUE != xTaskCreate(  vTask_StatusLed,
                                 "Status Led",
                                 configMINIMAL_STACK_SIZE,
                                 NULL,
                                 tskIDLE_PRIORITY + 1,
                                 &xTask_StatusLed )) { ERROR_ACTION(TASK_NOT_CREATE,0); }	
-
-
+#endif
+#if 0
     if( pdTRUE != xTaskCreate(  vTask_MainMeasure,
                                 "Main Measure",
                                 configMINIMAL_STACK_SIZE + 5000,
                                 NULL,
                                 tskIDLE_PRIORITY + 1,
                                 &xTask_MainMeasure )) { ERROR_ACTION(TASK_NOT_CREATE,0); }	
-
-
+#endif
+#if 0
     if( pdTRUE != xTaskCreate(  vTask_FatFs,
                                 "FatFs",
                                 configMINIMAL_STACK_SIZE + 2000,
                                 NULL,
                                 tskIDLE_PRIORITY + 1,
                                 &xTask_FatFs )) { ERROR_ACTION(TASK_NOT_CREATE,0); }	
-
-
-	if( pdTRUE != xTaskCreate(  vTask_Terminal,
+#endif
+#if 1	
+    if( pdTRUE != xTaskCreate(  vTask_Terminal,
                                 "Terminal",
-                                configMINIMAL_STACK_SIZE,
+                                configMINIMAL_STACK_SIZE +500,
                                 NULL,
                                 tskIDLE_PRIORITY + 1,
                                 &xTask_Terminal )) { ERROR_ACTION(TASK_NOT_CREATE,0); }	
-
-
+#endif
+#if 0
     if( pdTRUE != xTaskCreate(  vTask_SystemTime,
                                 "System Time",
                                 configMINIMAL_STACK_SIZE,
                                 NULL,
                                 tskIDLE_PRIORITY + 1,
                                 &xTask_SystemTime )) { ERROR_ACTION(TASK_NOT_CREATE,0); }	
-
+#endif
+#if 0
     if( pdTRUE != xTaskCreate(  vTask_RunButton,
                                 "Run Button",
                                 configMINIMAL_STACK_SIZE,
                                 NULL,
                                 tskIDLE_PRIORITY + 1,
                                 &xTask_RunButton )) { ERROR_ACTION(TASK_NOT_CREATE,0); }	
-
+#endif
+#if 0
     if( pdTRUE != xTaskCreate(  vTask_SDCardDetect,
                                 "SD Card Detect",
                                 configMINIMAL_STACK_SIZE,
@@ -182,8 +188,8 @@ int main(void) {
                                 tskIDLE_PRIORITY + 1,
                                 &xTask_SDCardDetect )) { ERROR_ACTION(TASK_NOT_CREATE,0); }	
 
-*/
-//    xQueueSend( xQueue_Terminal, "*****************   Mockup 1290EF1  *********************\r\n", NULL );
+#endif
+    xQueueSend( xQueue_Terminal, "*********   Unstability Collector Current V1.0  *********\r\n", NULL );
 
 
 

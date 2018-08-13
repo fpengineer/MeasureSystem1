@@ -25,18 +25,16 @@ void vTask_DebugLed( void *pvParameters )
     extern QueueHandle_t xQueue_DebugLed;
 //    extern QueueHandle_t xQueue_Terminal;
     enum stateStatusLed stateStatusLed = STATUS_LED_FLASH;
-    TickType_t timeout = 0;
+    TickType_t timeout = 1;
     
     GPIO_InitTypeDef GPIO_InitStructure; 
 
-// Init LED gpio pin
+    __HAL_RCC_GPIOE_CLK_ENABLE();
+// Init LED gpio pin PE11
     GPIO_InitStructure.Pin   = GPIO_PIN_11;
     GPIO_InitStructure.Mode  = GPIO_MODE_OUTPUT_PP;
     GPIO_InitStructure.Pull  = GPIO_PULLUP;
     GPIO_InitStructure.Speed = GPIO_SPEED_MEDIUM;
-
-    __HAL_RCC_GPIOE_CLK_ENABLE();
-    
     HAL_GPIO_Init(GPIOE, &GPIO_InitStructure);
 
 	while (1)
