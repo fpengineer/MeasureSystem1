@@ -4,3 +4,27 @@ Obj
 
 #Ignore IDE generated files
 minINI/doc/
+JLinkLog.txt
+CMSIS/Device/ST/STM32F2xx/Source/Templates/iar/startup_stm32f217xx.s
+CMSIS/Device/ST/STM32F2xx/Source/Templates/iar/startup_stm32f215xx.s
+CMSIS/Device/ST/STM32F2xx/Source/Templates/iar/startup_stm32f207xx.s
+CMSIS/Device/ST/STM32F2xx/Source/Templates/iar/startup_stm32f205xx.s
+CMSIS/Device/ST/STM32F2xx/Source/Templates/iar/linker/stm32f217xx_sram.icf
+CMSIS/Device/ST/STM32F2xx/Source/Templates/iar/linker/stm32f217xx_flash.icf
+CMSIS/Device/ST/STM32F2xx/Source/Templates/iar/linker/stm32f215xx_sram.icf
+CMSIS/Device/ST/STM32F2xx/Source/Templates/iar/linker/stm32f215xx_flash.icf
+CMSIS/Device/ST/STM32F2xx/Source/Templates/iar/linker/stm32f207xx_sram.icf
+CMSIS/Device/ST/STM32F2xx/Source/Templates/iar/linker/stm32f207xx_flash.icf
+CMSIS/Device/ST/STM32F2xx/Source/Templates/iar/linker/stm32f205xx_sram.icf
+CMSIS/Device/ST/STM32F2xx/Source/Templates/iar/linker/stm32f205xx_flash.icf
+CMSIS/Device/ST/STM32F2xx/Source/Templates/gcc/startup_stm32f217xx.s
+CMSIS/Device/ST/STM32F2xx/Source/Templates/gcc/startup_stm32f215xx.s
+CMSIS/Device/ST/STM32F2xx/Source/Templates/gcc/startup_stm32f207xx.s
+CMSIS/Device/ST/STM32F2xx/Source/Templates/gcc/startup_stm32f205xx.s
+CMSIS/Device/ST/STM32F2xx/Source/Templates/arm/startup_stm32f217xx.s
+CMSIS/Device/ST/STM32F2xx/Source/Templates/arm/startup_stm32f215xx.s
+CMSIS/Device/ST/STM32F2xx/Source/Templates/arm/startup_stm32f207xx.s
+CMSIS/Device/ST/STM32F2xx/Release_Notes.html
+CMSIS/Device/ST/STM32F2xx/Include/stm32f217xx.h
+CMSIS/Device/ST/STM32F2xx/Include/stm32f215xx.h
+CMSIS/Device/ST/STM32F2xx/Include/stm32f207xx.h
