@@ -553,6 +553,11 @@
               <FileType>1</FileType>
               <FilePath>.\User\src\TS_HwSPI2.c</FilePath>
             </File>
+            <File>
+              <FileName>TS_queue.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\User\inc\TS_queue.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

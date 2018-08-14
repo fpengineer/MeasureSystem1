@@ -40,5 +40,12 @@ typedef struct {
     enum stateMainMeasure stateMainMeasure;
 } MainMeasureQueueData_t;
 
+typedef struct {
+    enum stateHwSPI2 stateHwSPI2;
+    uint8_t data[50];
+    uint16_t sizeData;
+} HwSPI2QueueData_t;
+
+
 #endif /* _TS_QUEUE_H_ */
 /* End of file */
