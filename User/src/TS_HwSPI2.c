@@ -23,8 +23,8 @@
 
 
 // Define macroses for CS pin for relay, leds, ADC, DAC
-#define PORT_RELAY_CS_0()               HAL_GPIO_WritePin(GPIOB, GPIO_PIN_10, GPIO_PIN_RESET)
-#define PORT_RELAY_CS_1()               HAL_GPIO_WritePin(GPIOB, GPIO_PIN_10, GPIO_PIN_SET)
+#define RELAY_CS_0()               HAL_GPIO_WritePin(GPIOB, GPIO_PIN_10, GPIO_PIN_RESET)
+#define RELAY_CS_1()               HAL_GPIO_WritePin(GPIOB, GPIO_PIN_10, GPIO_PIN_SET)
 
 #define LEDS_CS_0()                     HAL_GPIO_WritePin(GPIOC, GPIO_PIN_4, GPIO_PIN_RESET)
 #define LEDS_CS_1()                     HAL_GPIO_WritePin(GPIOC, GPIO_PIN_4, GPIO_PIN_SET)
@@ -59,13 +59,12 @@ void vTask_HwSPI2( void *pvParameters )
 {
     extern QueueHandle_t xQueue_HwSPI2_rx;
     extern QueueHandle_t xQueue_HwSPI2_tx;
-
     HwSPI2QueueData_t HwSPI2QueueData_rx;
     HwSPI2QueueData_t HwSPI2QueueData_tx;
         
     InitHw();
     
-    PORT_RELAY_CS_1();
+    RELAY_CS_1();
     LEDS_CS_1();
     ADC_CS_1();
     DAC_CS_1();
@@ -82,27 +81,27 @@ void vTask_HwSPI2( void *pvParameters )
 
         switch( HwSPI2QueueData_rx.stateHwSPI2 )
         {
-            case HW_SPI2_RELAY_ON:
+            case HW_SPI2_RELAY_SET:
             {
-                PORT_RELAY_CS_0();
+                RELAY_CS_0();
 
-                PORT_RELAY_CS_1();
+                RELAY_CS_1();
                 break;
             }
  
-            case HW_SPI2_RELAY_OFF:
+            case HW_SPI2_RELAY_CLEAR:
             {
-                PORT_RELAY_CS_0();
+                RELAY_CS_0();
 
-                PORT_RELAY_CS_1();
+                RELAY_CS_1();
                 break;
             }
 
             case HW_SPI2_RELAY_CLEAR_ALL:
             {
-                PORT_RELAY_CS_0();
+                RELAY_CS_0();
 
-                PORT_RELAY_CS_1();
+                RELAY_CS_1();
                 break;
             }
 
