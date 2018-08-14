@@ -50,6 +50,7 @@ static void HwSPI2_SendRelay(uint8_t *relayField);
 
 
 // Declare private variables
+static char tempString[100] = {""};
 //static struct ledData ledData;
 static GPIO_InitTypeDef GPIO_InitStructure; 
 static SPI_HandleTypeDef SPI_Handle;
@@ -58,6 +59,7 @@ static uint8_t relayField[5];
 // Task
 void vTask_HwSPI2( void *pvParameters )
 {
+    extern QueueHandle_t xQueue_Terminal;
     extern QueueHandle_t xQueue_HwSPI2_rx;
     extern QueueHandle_t xQueue_HwSPI2_tx;
     HwSPI2QueueData_t HwSPI2QueueData_rx;
@@ -76,17 +78,24 @@ void vTask_HwSPI2( void *pvParameters )
 //    ledData.ledBad = 0x00;
 //    ledData.ledContact = 0x00;
 
+
     RelayClearAll(relayField);
     HwSPI2_SendRelay(relayField);
 
+    xQueueSend( xQueue_Terminal, "vTask_HwSPI2 - Run\r\n", NULL );
     while( 1 )
 	{
-        xQueueReceive( xQueue_HwSPI2_rx, &xQueue_HwSPI2_rx, portMAX_DELAY );
+        xQueueReceive( xQueue_HwSPI2_rx, &HwSPI2QueueData_rx, portMAX_DELAY );
 
         switch( HwSPI2QueueData_rx.stateHwSPI2 )
         {
             case HW_SPI2_RELAY_SET:
             {
+                xQueueSend( xQueue_Terminal, "vTask_HwSPI2 - Enter into HW_SPI2_RELAY_SET\r\n", NULL );
+
+                sprintf(tempString, "HwSPI2QueueData_rx.relay - %d\r\n", HwSPI2QueueData_rx.relay);
+                xQueueSend( xQueue_Terminal, &tempString, NULL );
+
                 RELAY_CS_0();
                 RelaySet(relayField, HwSPI2QueueData_rx.relay);
                 HwSPI2_SendRelay(relayField);

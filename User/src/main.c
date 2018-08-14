@@ -125,7 +125,7 @@ int main(void) {
 #if 1
 	if( pdTRUE != xTaskCreate(  vTask_Debug,
                                 "Debug",
-                                configMINIMAL_STACK_SIZE,
+                                configMINIMAL_STACK_SIZE + 1000,
                                 NULL,
                                 tskIDLE_PRIORITY + 1,
                                 &xTask_DebugLed )) { ERROR_ACTION(TASK_NOT_CREATE,0); }	
@@ -211,7 +211,7 @@ int main(void) {
                                 &xTask_SDCardDetect )) { ERROR_ACTION(TASK_NOT_CREATE,0); }	
 
 #endif
-    xQueueSend( xQueue_Terminal, "*********   Unstability Collector Current V1.0  *********\r\n", NULL );
+    xQueueSend( xQueue_Terminal, "*********   Unstability of Collector Current V1.0  *********\r\n", NULL );
 
 
 
