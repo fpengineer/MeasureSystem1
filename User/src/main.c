@@ -53,7 +53,8 @@ TaskHandle_t xTask_DebugLed;
 //TaskHandle_t xTask_MainMeasure;
 //TaskHandle_t xTask_FatFs;
 TaskHandle_t xTask_Terminal;
-TaskHandle_t xTask_HwSPI2;
+TaskHandle_t xTask_HwSPI2_rx;
+TaskHandle_t xTask_HwSPI2_tx;
 //TaskHandle_t xTask_SystemTime;
 //TaskHandle_t xTask_RunButton;
 //TaskHandle_t xTask_SDCardDetect;
@@ -65,7 +66,8 @@ QueueHandle_t xQueue_DebugLed;
 //QueueHandle_t xQueue_FatFsIn;
 //QueueHandle_t xQueue_FatFsOut;
 QueueHandle_t xQueue_Terminal;
-QueueHandle_t xQueue_HwSPI2;
+QueueHandle_t xQueue_HwSPI2_rx;
+QueueHandle_t xQueue_HwSPI2_tx;
 //QueueHandle_t xQueue_SystemTimeIn;
 //QueueHandle_t xQueue_SystemTimeOut;
 
@@ -112,7 +114,8 @@ int main(void) {
 //	xQueue_FatFsIn = xQueueCreate( 10, sizeof( FatFsQueueData_t ) ); 
 //	xQueue_FatFsOut = xQueueCreate( 10, sizeof( FatFsQueueData_t ) ); 
 	xQueue_Terminal = xQueueCreate( 15, sizeof( char[500] ) ); 
-	xQueue_HwSPI2 = xQueueCreate( 5, sizeof( enum stateHwSPI2 ) ); 
+	xQueue_HwSPI2_rx = xQueueCreate( 5, sizeof( enum stateHwSPI2 ) ); 
+	xQueue_HwSPI2_tx = xQueueCreate( 5, sizeof( enum stateHwSPI2 ) ); 
 //	xQueue_SystemTimeIn = xQueueCreate( 5, sizeof( SystemTimeQueueData_t ) ); 
 //	xQueue_SystemTimeOut = xQueueCreate( 5, sizeof( SystemTimeQueueData_t ) ); 
 

@@ -23,7 +23,8 @@
     
 void vTask_HwSPI2( void *pvParameters )
 {
-    extern QueueHandle_t xQueue_HwSPI2;
+    extern QueueHandle_t xQueue_HwSPI2_rx;
+    extern QueueHandle_t xQueue_HwSPI2_tx;
     enum stateHwSPI2 stateHwSPI2 = SPI2_IDLE;
     GPIO_InitTypeDef GPIO_InitStructure; 
     SPI_HandleTypeDef SPI_Handle;
@@ -74,7 +75,7 @@ void vTask_HwSPI2( void *pvParameters )
     
 	while( 1 )
 	{
-        xQueueReceive( xQueue_HwSPI2, &stateHwSPI2, portMAX_DELAY );
+        xQueueReceive( xQueue_HwSPI2_rx, &stateHwSPI2, portMAX_DELAY );
 
         switch( stateHwSPI2 )
         {
