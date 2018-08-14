@@ -558,6 +558,11 @@
               <FileType>5</FileType>
               <FilePath>.\User\inc\TS_queue.h</FilePath>
             </File>
+            <File>
+              <FileName>TS_Debug.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\User\src\TS_Debug.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

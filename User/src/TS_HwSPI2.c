@@ -26,14 +26,14 @@
 #define RELAY_CS_0()               HAL_GPIO_WritePin(GPIOB, GPIO_PIN_10, GPIO_PIN_RESET)
 #define RELAY_CS_1()               HAL_GPIO_WritePin(GPIOB, GPIO_PIN_10, GPIO_PIN_SET)
 
-#define LEDS_CS_0()                     HAL_GPIO_WritePin(GPIOC, GPIO_PIN_4, GPIO_PIN_RESET)
-#define LEDS_CS_1()                     HAL_GPIO_WritePin(GPIOC, GPIO_PIN_4, GPIO_PIN_SET)
+#define LEDS_CS_0()                HAL_GPIO_WritePin(GPIOC, GPIO_PIN_4, GPIO_PIN_RESET)
+#define LEDS_CS_1()                HAL_GPIO_WritePin(GPIOC, GPIO_PIN_4, GPIO_PIN_SET)
 
-#define ADC_CS_0()                      HAL_GPIO_WritePin(GPIOB, GPIO_PIN_11, GPIO_PIN_RESET)
-#define ADC_CS_1()                      HAL_GPIO_WritePin(GPIOB, GPIO_PIN_11, GPIO_PIN_SET)
+#define ADC_CS_0()                 HAL_GPIO_WritePin(GPIOB, GPIO_PIN_11, GPIO_PIN_RESET)
+#define ADC_CS_1()                 HAL_GPIO_WritePin(GPIOB, GPIO_PIN_11, GPIO_PIN_SET)
 
-#define DAC_CS_0()                      HAL_GPIO_WritePin(GPIOB, GPIO_PIN_12, GPIO_PIN_RESET)
-#define DAC_CS_1()                      HAL_GPIO_WritePin(GPIOB, GPIO_PIN_12, GPIO_PIN_SET)
+#define DAC_CS_0()                 HAL_GPIO_WritePin(GPIOB, GPIO_PIN_12, GPIO_PIN_RESET)
+#define DAC_CS_1()                 HAL_GPIO_WritePin(GPIOB, GPIO_PIN_12, GPIO_PIN_SET)
 
 
 struct ledData {
@@ -50,7 +50,7 @@ static void HwSPI2_SendRelay(uint8_t *relayField);
 
 
 // Declare private variables
-static struct ledData ledData;
+//static struct ledData ledData;
 static GPIO_InitTypeDef GPIO_InitStructure; 
 static SPI_HandleTypeDef SPI_Handle;
 static uint8_t relayField[5];
@@ -61,7 +61,7 @@ void vTask_HwSPI2( void *pvParameters )
     extern QueueHandle_t xQueue_HwSPI2_rx;
     extern QueueHandle_t xQueue_HwSPI2_tx;
     HwSPI2QueueData_t HwSPI2QueueData_rx;
-    HwSPI2QueueData_t HwSPI2QueueData_tx;
+//    HwSPI2QueueData_t HwSPI2QueueData_tx;
         
     HwSPI2_Init();
     
@@ -72,9 +72,9 @@ void vTask_HwSPI2( void *pvParameters )
 
     HwSPI2QueueData_rx.stateHwSPI2 = HW_SPI2_IDLE;
 
-    ledData.ledGood = 0x00;
-    ledData.ledBad = 0x00;
-    ledData.ledContact = 0x00;
+//    ledData.ledGood = 0x00;
+//    ledData.ledBad = 0x00;
+//    ledData.ledContact = 0x00;
 
     while( 1 )
 	{

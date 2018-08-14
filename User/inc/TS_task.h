@@ -70,6 +70,7 @@ enum stateMainMeasure {
 };
 
 
+void vTask_Debug(void *pvParameters);
 void vTask_DebugLed(void *pvParameters);
 //void vTask_SDCardLed(void *pvParameters);
 //void vTask_StatusLed(void *pvParameters);

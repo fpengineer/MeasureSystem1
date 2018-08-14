@@ -14,9 +14,6 @@
 #include "Relay.h"
 
 
-
-
-
 void RelaySet(uint8_t *relayField, enum relay relay)
 {
     relayField[(relay + 1) / 8] |= 0x01 << (((relay + 1) % 8) + 1);
@@ -38,9 +35,6 @@ void RelayClearAll(uint8_t *relayField)
         relayField[i] = 0x00;
     }
 }
-
-
-
 
 
 /* End of file */
