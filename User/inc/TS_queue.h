@@ -16,6 +16,7 @@
 #include <stdint.h>
 //#include "Config.h"
 //#include "Measure.h"
+#include "Relay.h"
 
 #include "TS_task.h"
 /*
@@ -44,6 +45,7 @@ typedef struct {
     enum stateHwSPI2 stateHwSPI2;
     uint8_t data[50];
     uint16_t sizeData;
+    enum relay relay;
 } HwSPI2QueueData_t;
 
 

@@ -44,7 +44,8 @@ struct ledData {
 
 
 // Declare private functions
-static void InitHw(void);
+static void HwSPI2_Init(void);
+static void HwSPI2_SendRelay(uint8_t *relayField);
 
 
 
@@ -52,7 +53,7 @@ static void InitHw(void);
 static struct ledData ledData;
 static GPIO_InitTypeDef GPIO_InitStructure; 
 static SPI_HandleTypeDef SPI_Handle;
-static uint8_t relayArray[5];
+static uint8_t relayField[5];
 
 // Task
 void vTask_HwSPI2( void *pvParameters )
@@ -62,7 +63,7 @@ void vTask_HwSPI2( void *pvParameters )
     HwSPI2QueueData_t HwSPI2QueueData_rx;
     HwSPI2QueueData_t HwSPI2QueueData_tx;
         
-    InitHw();
+    HwSPI2_Init();
     
     RELAY_CS_1();
     LEDS_CS_1();
@@ -84,7 +85,8 @@ void vTask_HwSPI2( void *pvParameters )
             case HW_SPI2_RELAY_SET:
             {
                 RELAY_CS_0();
-
+                RelaySet(relayField, HwSPI2QueueData_rx.relay);
+                HwSPI2_SendRelay(relayField);
                 RELAY_CS_1();
                 break;
             }
@@ -92,7 +94,8 @@ void vTask_HwSPI2( void *pvParameters )
             case HW_SPI2_RELAY_CLEAR:
             {
                 RELAY_CS_0();
-
+                RelayClear(relayField, HwSPI2QueueData_rx.relay);
+                HwSPI2_SendRelay(relayField);
                 RELAY_CS_1();
                 break;
             }
@@ -100,7 +103,8 @@ void vTask_HwSPI2( void *pvParameters )
             case HW_SPI2_RELAY_CLEAR_ALL:
             {
                 RELAY_CS_0();
-
+                RelayClearAll(relayField);
+                HwSPI2_SendRelay(relayField);
                 RELAY_CS_1();
                 break;
             }
@@ -175,7 +179,7 @@ void vTask_HwSPI2( void *pvParameters )
 // Initialize hardware for current task.
 //
 //*************************************************
-static void InitHw(void)
+static void HwSPI2_Init(void)
 {
     __HAL_RCC_GPIOB_CLK_ENABLE();
     __HAL_RCC_GPIOC_CLK_ENABLE();
@@ -248,5 +252,24 @@ static void InitHw(void)
     GPIO_InitStructure.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
     HAL_GPIO_Init(GPIOB, &GPIO_InitStructure);
 }
-    
+
+
+
+//*************************************************
+//
+// Private function
+//
+// Send relay field
+//
+//*************************************************
+static void HwSPI2_SendRelay(uint8_t *relayField)
+{
+    int32_t i = 0;
+
+    for (i = (sizeof(relayField) - 1); i >= 0; i--)
+    {
+        HAL_SPI_Transmit(&SPI_Handle, &relayField[i], 1, 1000);
+    }
+}
+
 /* End of file */
