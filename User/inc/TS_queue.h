@@ -14,17 +14,17 @@
 #define _TS_QUEUE_H_
 
 #include <stdint.h>
-#include "Config.h"
-#include "Measure.h"
-#include "Config.h"
+//#include "Config.h"
+//#include "Measure.h"
 
 #include "TS_task.h"
-
+/*
 typedef struct {
     enum stateSystemTime stateSystemTime ;
     TM_RTC_Time_t datatime;    
 } SystemTimeQueueData_t;
-
+*/
+/*
 typedef struct {
     enum stateFatFs stateFatFs;
     MeasureData_t measureData;    
@@ -35,7 +35,7 @@ typedef struct {
     uint32_t fileWriteFlag;
     char stringName[20];
 } FatFsQueueData_t;
-
+*/
 typedef struct {
     enum stateMainMeasure stateMainMeasure;
 } MainMeasureQueueData_t;
