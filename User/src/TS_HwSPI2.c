@@ -36,6 +36,25 @@
 #define DAC_CS_1()                      HAL_GPIO_WritePin(GPIOB, GPIO_PIN_12, GPIO_PIN_SET)
 
 
+struct ledData {
+    uint8_t ledGood;
+    uint8_t ledBad;
+    uint8_t ledContact;
+};
+
+
+// Declare private functions
+static void InitHw(void);
+
+
+
+// Declare private variables
+static struct ledData ledData;
+static GPIO_InitTypeDef GPIO_InitStructure; 
+static SPI_HandleTypeDef SPI_Handle;
+static uint8_t relayArray[5];
+
+// Task
 void vTask_HwSPI2( void *pvParameters )
 {
     extern QueueHandle_t xQueue_HwSPI2_rx;
@@ -43,86 +62,19 @@ void vTask_HwSPI2( void *pvParameters )
 
     HwSPI2QueueData_t HwSPI2QueueData_rx;
     HwSPI2QueueData_t HwSPI2QueueData_tx;
-    GPIO_InitTypeDef GPIO_InitStructure; 
-    SPI_HandleTypeDef SPI_Handle;
         
-    __HAL_RCC_GPIOB_CLK_ENABLE();
-    __HAL_RCC_GPIOC_CLK_ENABLE();
-    __HAL_RCC_SPI2_CLK_ENABLE();
-
-/* Initialize SPI2 SCK: PB13 */
-    GPIO_InitStructure.Pin   = GPIO_PIN_13;
-    GPIO_InitStructure.Mode  = GPIO_MODE_AF_PP;
-    GPIO_InitStructure.Pull  = GPIO_NOPULL;
-    GPIO_InitStructure.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
-    GPIO_InitStructure.Alternate = GPIO_AF5_SPI2;
-    HAL_GPIO_Init(GPIOB, &GPIO_InitStructure);
-
-/* Initialize SPI2 MOSI: PB15 */
-    GPIO_InitStructure.Pin   = GPIO_PIN_15;
-    GPIO_InitStructure.Mode  = GPIO_MODE_AF_PP;
-    GPIO_InitStructure.Pull  = GPIO_NOPULL;
-    GPIO_InitStructure.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
-    GPIO_InitStructure.Alternate = GPIO_AF5_SPI2;
-    HAL_GPIO_Init(GPIOB, &GPIO_InitStructure);
-
-/* Initialize SPI2 MISO: PB14 */
-    GPIO_InitStructure.Pin   = GPIO_PIN_14;
-    GPIO_InitStructure.Mode  = GPIO_MODE_AF_PP;
-    GPIO_InitStructure.Pull  = GPIO_NOPULL;
-    GPIO_InitStructure.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
-    GPIO_InitStructure.Alternate = GPIO_AF5_SPI2;
-    HAL_GPIO_Init(GPIOB, &GPIO_InitStructure);
-
-/* Initialize SPI2 */
-    SPI_Handle.Instance = SPI2;
-    SPI_Handle.Init.Mode = SPI_MODE_MASTER;
-    SPI_Handle.Init.Direction = SPI_DIRECTION_2LINES;
-    SPI_Handle.Init.DataSize = SPI_DATASIZE_8BIT;
-    SPI_Handle.Init.CLKPolarity = SPI_POLARITY_LOW;
-    SPI_Handle.Init.CLKPhase = SPI_PHASE_1EDGE;
-    SPI_Handle.Init.NSS = SPI_NSS_SOFT;
-    SPI_Handle.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_2;
-    SPI_Handle.Init.FirstBit = SPI_FIRSTBIT_MSB;
-    SPI_Handle.Init.TIMode = SPI_TIMODE_DISABLE;
-    SPI_Handle.Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;
-    SPI_Handle.Init.CRCPolynomial = 10;
-    HAL_SPI_Init(&SPI_Handle);
-   
-/* Initialize Realy CS: PB10 */
-    GPIO_InitStructure.Pin   = GPIO_PIN_10;
-    GPIO_InitStructure.Mode  = GPIO_MODE_OUTPUT_PP;
-    GPIO_InitStructure.Pull  = GPIO_PULLUP;
-    GPIO_InitStructure.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
-    HAL_GPIO_Init(GPIOB, &GPIO_InitStructure);
-
-/* Initialize LEDs CS: PC4 */
-    GPIO_InitStructure.Pin   = GPIO_PIN_4;
-    GPIO_InitStructure.Mode  = GPIO_MODE_OUTPUT_PP;
-    GPIO_InitStructure.Pull  = GPIO_PULLUP;
-    GPIO_InitStructure.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
-    HAL_GPIO_Init(GPIOC, &GPIO_InitStructure);
-
-/* Initialize ADC CS: PB11 */
-    GPIO_InitStructure.Pin   = GPIO_PIN_11;
-    GPIO_InitStructure.Mode  = GPIO_MODE_OUTPUT_PP;
-    GPIO_InitStructure.Pull  = GPIO_PULLUP;
-    GPIO_InitStructure.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
-    HAL_GPIO_Init(GPIOB, &GPIO_InitStructure);
-
-/* Initialize DAC CS: PB12 */
-    GPIO_InitStructure.Pin   = GPIO_PIN_12;
-    GPIO_InitStructure.Mode  = GPIO_MODE_OUTPUT_PP;
-    GPIO_InitStructure.Pull  = GPIO_PULLUP;
-    GPIO_InitStructure.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
-    HAL_GPIO_Init(GPIOB, &GPIO_InitStructure);
-
+    InitHw();
+    
     PORT_RELAY_CS_1();
     LEDS_CS_1();
     ADC_CS_1();
     DAC_CS_1();
 
     HwSPI2QueueData_rx.stateHwSPI2 = HW_SPI2_IDLE;
+
+    ledData.ledGood = 0x00;
+    ledData.ledBad = 0x00;
+    ledData.ledContact = 0x00;
 
     while( 1 )
 	{
@@ -217,5 +169,85 @@ void vTask_HwSPI2( void *pvParameters )
 	}
 }
 
+//*************************************************
+//
+// Private function
+//
+// Initialize hardware for current task.
+//
+//*************************************************
+static void InitHw(void)
+{
+    __HAL_RCC_GPIOB_CLK_ENABLE();
+    __HAL_RCC_GPIOC_CLK_ENABLE();
+    __HAL_RCC_SPI2_CLK_ENABLE();
 
+/* Initialize SPI2 SCK: PB13 */
+    GPIO_InitStructure.Pin   = GPIO_PIN_13;
+    GPIO_InitStructure.Mode  = GPIO_MODE_AF_PP;
+    GPIO_InitStructure.Pull  = GPIO_NOPULL;
+    GPIO_InitStructure.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+    GPIO_InitStructure.Alternate = GPIO_AF5_SPI2;
+    HAL_GPIO_Init(GPIOB, &GPIO_InitStructure);
+
+/* Initialize SPI2 MOSI: PB15 */
+    GPIO_InitStructure.Pin   = GPIO_PIN_15;
+    GPIO_InitStructure.Mode  = GPIO_MODE_AF_PP;
+    GPIO_InitStructure.Pull  = GPIO_NOPULL;
+    GPIO_InitStructure.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+    GPIO_InitStructure.Alternate = GPIO_AF5_SPI2;
+    HAL_GPIO_Init(GPIOB, &GPIO_InitStructure);
+
+/* Initialize SPI2 MISO: PB14 */
+    GPIO_InitStructure.Pin   = GPIO_PIN_14;
+    GPIO_InitStructure.Mode  = GPIO_MODE_AF_PP;
+    GPIO_InitStructure.Pull  = GPIO_NOPULL;
+    GPIO_InitStructure.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+    GPIO_InitStructure.Alternate = GPIO_AF5_SPI2;
+    HAL_GPIO_Init(GPIOB, &GPIO_InitStructure);
+
+/* Initialize SPI2 */
+    SPI_Handle.Instance = SPI2;
+    SPI_Handle.Init.Mode = SPI_MODE_MASTER;
+    SPI_Handle.Init.Direction = SPI_DIRECTION_2LINES;
+    SPI_Handle.Init.DataSize = SPI_DATASIZE_8BIT;
+    SPI_Handle.Init.CLKPolarity = SPI_POLARITY_LOW;
+    SPI_Handle.Init.CLKPhase = SPI_PHASE_1EDGE;
+    SPI_Handle.Init.NSS = SPI_NSS_SOFT;
+    SPI_Handle.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_2;
+    SPI_Handle.Init.FirstBit = SPI_FIRSTBIT_MSB;
+    SPI_Handle.Init.TIMode = SPI_TIMODE_DISABLE;
+    SPI_Handle.Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;
+    SPI_Handle.Init.CRCPolynomial = 10;
+    HAL_SPI_Init(&SPI_Handle);
+   
+/* Initialize Realy CS: PB10 */
+    GPIO_InitStructure.Pin   = GPIO_PIN_10;
+    GPIO_InitStructure.Mode  = GPIO_MODE_OUTPUT_PP;
+    GPIO_InitStructure.Pull  = GPIO_PULLUP;
+    GPIO_InitStructure.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+    HAL_GPIO_Init(GPIOB, &GPIO_InitStructure);
+
+/* Initialize LEDs CS: PC4 */
+    GPIO_InitStructure.Pin   = GPIO_PIN_4;
+    GPIO_InitStructure.Mode  = GPIO_MODE_OUTPUT_PP;
+    GPIO_InitStructure.Pull  = GPIO_PULLUP;
+    GPIO_InitStructure.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+    HAL_GPIO_Init(GPIOC, &GPIO_InitStructure);
+
+/* Initialize ADC CS: PB11 */
+    GPIO_InitStructure.Pin   = GPIO_PIN_11;
+    GPIO_InitStructure.Mode  = GPIO_MODE_OUTPUT_PP;
+    GPIO_InitStructure.Pull  = GPIO_PULLUP;
+    GPIO_InitStructure.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+    HAL_GPIO_Init(GPIOB, &GPIO_InitStructure);
+
+/* Initialize DAC CS: PB12 */
+    GPIO_InitStructure.Pin   = GPIO_PIN_12;
+    GPIO_InitStructure.Mode  = GPIO_MODE_OUTPUT_PP;
+    GPIO_InitStructure.Pull  = GPIO_PULLUP;
+    GPIO_InitStructure.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+    HAL_GPIO_Init(GPIOB, &GPIO_InitStructure);
+}
+    
 /* End of file */
