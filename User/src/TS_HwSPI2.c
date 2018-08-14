@@ -76,6 +76,9 @@ void vTask_HwSPI2( void *pvParameters )
 //    ledData.ledBad = 0x00;
 //    ledData.ledContact = 0x00;
 
+    RelayClearAll(relayField);
+    HwSPI2_SendRelay(relayField);
+
     while( 1 )
 	{
         xQueueReceive( xQueue_HwSPI2_rx, &xQueue_HwSPI2_rx, portMAX_DELAY );
