@@ -40,7 +40,7 @@
 
 // Include application
 #include "TS_task.h"
-//#include "TS_queue.h"
+#include "TS_queue.h"
 //#include "Config.h"
 //#include "Measure.h"
 #include "ClockOutMCO.h"
@@ -114,8 +114,8 @@ int main(void) {
 //	xQueue_FatFsIn = xQueueCreate( 10, sizeof( FatFsQueueData_t ) ); 
 //	xQueue_FatFsOut = xQueueCreate( 10, sizeof( FatFsQueueData_t ) ); 
 	xQueue_Terminal = xQueueCreate( 15, sizeof( char[500] ) ); 
-	xQueue_HwSPI2_rx = xQueueCreate( 5, sizeof( enum stateHwSPI2 ) ); 
-	xQueue_HwSPI2_tx = xQueueCreate( 5, sizeof( enum stateHwSPI2 ) ); 
+	xQueue_HwSPI2_rx = xQueueCreate( 5, sizeof( HwSPI2QueueData_t ) ); 
+	xQueue_HwSPI2_tx = xQueueCreate( 5, sizeof( HwSPI2QueueData_t ) ); 
 //	xQueue_SystemTimeIn = xQueueCreate( 5, sizeof( SystemTimeQueueData_t ) ); 
 //	xQueue_SystemTimeOut = xQueueCreate( 5, sizeof( SystemTimeQueueData_t ) ); 
 
