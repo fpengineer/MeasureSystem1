@@ -1,0 +1,10 @@
+#Ignore modules added by the repo script
+Documentation
+RTOS
+DSP_Lib
+Lib
+/*.pdf
+/*.rtf
+/*.html
+
+#Ignore IDE generated files

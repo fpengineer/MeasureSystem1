@@ -1,0 +1,8 @@
+#Ignore modules added by the repo script
+doc
+/Readme.md
+LICENSE
+NOTICE
+
+#Ignore IDE generated files
+

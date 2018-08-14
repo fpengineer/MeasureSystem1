@@ -1,0 +1,6 @@
+#Ignore modules added by the repo script
+Lst
+Obj
+
+#Ignore IDE generated files
+minINI/doc/
