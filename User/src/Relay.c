@@ -24,7 +24,11 @@ void RelaySet(uint8_t *relayField, char *relayList)
         if (isdigit(*relayList))
         {
             relay = strtol(relayList, &relayList, 10);
-            relayField[(relay + 1) / 8] |= 0x01 << (relay % 7);
+            if (relay <= (RELAY_FIELD_LENGTH * RELAY_COUNT_PER_BANK) &&
+                relay > 0)
+            {
+                relayField[(relay + 1) / RELAY_BANK_SIZE] |= 0x01 << (relay % RELAY_COUNT_PER_BANK);
+            }
         }
         else
         {
@@ -44,7 +48,11 @@ void RelayClear(uint8_t *relayField, char *relayList)
         if (isdigit(*relayList))
         {
             relay = strtol(relayList, &relayList, 10);
-            relayField[(relay + 1) / 8] &= ~(0x01 << (relay % 7));
+            if (relay <= (RELAY_FIELD_LENGTH * RELAY_COUNT_PER_BANK) &&
+                relay > 0)
+            {
+                relayField[(relay + 1) / RELAY_BANK_SIZE] &= ~(0x01 << (relay % RELAY_COUNT_PER_BANK));
+            }
         }
         else
         {
@@ -55,11 +63,11 @@ void RelayClear(uint8_t *relayField, char *relayList)
 
 
 // Clear all relays in relay field
-void RelayClearAll(uint8_t *relayField)
+void RelayClearAll(uint8_t *relayField, uint8_t len)
 {
     int32_t i = 0;
 
-    for (i = 0; i < sizeof(relayField); i++)
+    for (i = 0; i < len; i++)
     {
         relayField[i] = 0x00;
     }

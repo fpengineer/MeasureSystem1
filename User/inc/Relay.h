@@ -15,8 +15,9 @@
 
 #include <stdint.h>
 
-#define RELAY_FIELD_SIZE    5
-
+#define RELAY_FIELD_LENGTH         5
+#define RELAY_BANK_SIZE            8
+#define RELAY_COUNT_PER_BANK       (RELAY_BANK_SIZE - 1) 
 
 // Define common number relays
 #define POS_RELAY_K1        0x02
@@ -106,7 +107,7 @@ enum relay {
 
 void RelaySet(uint8_t *relayField, char *relayList);
 void RelayClear(uint8_t *relayField, char *relayList);
-void RelayClearAll(uint8_t *relayField);
+void RelayClearAll(uint8_t *relayField, uint8_t len);
 
 
 #endif /* _RELAY_H_ */
