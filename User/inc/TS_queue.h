@@ -45,7 +45,7 @@ typedef struct {
     enum stateHwSPI2 stateHwSPI2;
     uint8_t data[50];
     uint16_t sizeData;
-    enum relay relay;
+    char relayList[100];
 } HwSPI2QueueData_t;
 
 

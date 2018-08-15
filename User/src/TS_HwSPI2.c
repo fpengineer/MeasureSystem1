@@ -51,6 +51,7 @@ static void HwSPI2_SendRelay(uint8_t *relayField);
 
 // Declare private variables
 static char tempString[100] = {""};
+//static char relayList[100] = {""};
 //static struct ledData ledData;
 static GPIO_InitTypeDef GPIO_InitStructure; 
 static SPI_HandleTypeDef SPI_Handle;
@@ -64,7 +65,8 @@ void vTask_HwSPI2( void *pvParameters )
     extern QueueHandle_t xQueue_HwSPI2_tx;
     HwSPI2QueueData_t HwSPI2QueueData_rx;
 //    HwSPI2QueueData_t HwSPI2QueueData_tx;
-        
+
+    
     HwSPI2_Init();
     
     RELAY_CS_1();
@@ -82,7 +84,7 @@ void vTask_HwSPI2( void *pvParameters )
     RelayClearAll(relayField);
     HwSPI2_SendRelay(relayField);
 
-    xQueueSend( xQueue_Terminal, "vTask_HwSPI2 - Run\r\n", NULL );
+//    xQueueSend( xQueue_Terminal, "vTask_HwSPI2 - Run\r\n", NULL );
     while( 1 )
 	{
         xQueueReceive( xQueue_HwSPI2_rx, &HwSPI2QueueData_rx, portMAX_DELAY );
@@ -91,13 +93,24 @@ void vTask_HwSPI2( void *pvParameters )
         {
             case HW_SPI2_RELAY_SET:
             {
-                xQueueSend( xQueue_Terminal, "vTask_HwSPI2 - Enter into HW_SPI2_RELAY_SET\r\n", NULL );
+                sprintf(tempString, "HwSPI2QueueData_rx.relayList - %s\r\n", HwSPI2QueueData_rx.relayList);
+                xQueueSend( xQueue_Terminal, &tempString, NULL );
 
-                sprintf(tempString, "HwSPI2QueueData_rx.relay - %d\r\n", HwSPI2QueueData_rx.relay);
+                RelaySet(relayField, HwSPI2QueueData_rx.relayList);
+                
+                sprintf(tempString, "relayField[0] - 0x%02x\r"
+                                    "relayField[1] - 0x%02x\r"
+                                    "relayField[2] - 0x%02x\r"
+                                    "relayField[3] - 0x%02x\r"
+                                    "relayField[4] - 0x%02x\r\n",
+                                    relayField[0],
+                                    relayField[1],
+                                    relayField[2],
+                                    relayField[3],
+                                    relayField[4]);
                 xQueueSend( xQueue_Terminal, &tempString, NULL );
 
                 RELAY_CS_0();
-                RelaySet(relayField, HwSPI2QueueData_rx.relay);
                 HwSPI2_SendRelay(relayField);
                 RELAY_CS_1();
                 break;
@@ -105,8 +118,24 @@ void vTask_HwSPI2( void *pvParameters )
  
             case HW_SPI2_RELAY_CLEAR:
             {
+                sprintf(tempString, "HwSPI2QueueData_rx.relayList - %s\r\n", HwSPI2QueueData_rx.relayList);
+                xQueueSend( xQueue_Terminal, &tempString, NULL );
+
+                RelayClear(relayField, HwSPI2QueueData_rx.relayList);
+
+                sprintf(tempString, "relayField[0] - 0x%02x\r"
+                                    "relayField[1] - 0x%02x\r"
+                                    "relayField[2] - 0x%02x\r"
+                                    "relayField[3] - 0x%02x\r"
+                                    "relayField[4] - 0x%02x\r\n",
+                                    relayField[0],
+                                    relayField[1],
+                                    relayField[2],
+                                    relayField[3],
+                                    relayField[4]);
+                xQueueSend( xQueue_Terminal, &tempString, NULL );
+
                 RELAY_CS_0();
-                RelayClear(relayField, HwSPI2QueueData_rx.relay);
                 HwSPI2_SendRelay(relayField);
                 RELAY_CS_1();
                 break;
@@ -114,8 +143,21 @@ void vTask_HwSPI2( void *pvParameters )
 
             case HW_SPI2_RELAY_CLEAR_ALL:
             {
-                RELAY_CS_0();
                 RelayClearAll(relayField);
+
+                sprintf(tempString, "relayField[0] - 0x%02x\r"
+                                    "relayField[1] - 0x%02x\r"
+                                    "relayField[2] - 0x%02x\r"
+                                    "relayField[3] - 0x%02x\r"
+                                    "relayField[4] - 0x%02x\r\n",
+                                    relayField[0],
+                                    relayField[1],
+                                    relayField[2],
+                                    relayField[3],
+                                    relayField[4]);
+                xQueueSend( xQueue_Terminal, &tempString, NULL );
+
+                RELAY_CS_0();
                 HwSPI2_SendRelay(relayField);
                 RELAY_CS_1();
                 break;
