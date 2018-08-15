@@ -104,8 +104,8 @@ enum relay {
 };
 
 
-void RelaySet(uint8_t *relayField, enum relay relay);
-void RelayClear(uint8_t *relayField, enum relay relay);
+void RelaySet(uint8_t *relayField, char *relayList);
+void RelayClear(uint8_t *relayField, char *relayList);
 void RelayClearAll(uint8_t *relayField);
 
 
