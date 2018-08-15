@@ -61,19 +61,6 @@ void vTask_Debug( void *pvParameters )
     xQueueSend( xQueue_HwSPI2_rx, &HwSPI2QueueData_rx, NULL );
 
 
-
-/*
-    vTaskDelay(10);
-    xQueueSend( xQueue_Terminal, "\rvTask_Debug - ******** 4 **********\r\r\n", NULL );
-    vTaskDelay(1000);
-
-
-    xQueueSend( xQueue_Terminal, "vTask_Debug - Clear all relay\r\n", NULL );
-    HwSPI2QueueData_rx.stateHwSPI2 = HW_SPI2_RELAY_CLEAR_ALL;
-//    sprintf ( HwSPI2QueueData_rx.relayList, "K4, K12");
-    xQueueSend( xQueue_HwSPI2_rx, &HwSPI2QueueData_rx, NULL );
-
-  */  
     
     
     
