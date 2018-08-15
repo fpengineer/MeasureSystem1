@@ -46,6 +46,7 @@ typedef struct {
     uint8_t data[50];
     uint16_t sizeData;
     char relayList[100];
+    uint16_t dataADC;
 } HwSPI2QueueData_t;
 
 

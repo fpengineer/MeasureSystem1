@@ -47,6 +47,7 @@ struct ledData {
 // Declare private functions
 static void HwSPI2_Init(void);
 static void HwSPI2_SendRelay(uint8_t *relayField, uint8_t len);
+static uint16_t HwSPI2_GetSingleADC(void);
 
 
 
@@ -65,7 +66,7 @@ void vTask_HwSPI2( void *pvParameters )
     extern QueueHandle_t xQueue_HwSPI2_rx;
     extern QueueHandle_t xQueue_HwSPI2_tx;
     HwSPI2QueueData_t HwSPI2QueueData_rx;
-//    HwSPI2QueueData_t HwSPI2QueueData_tx;
+    HwSPI2QueueData_t HwSPI2QueueData_tx;
 
     
     HwSPI2_Init();
@@ -204,11 +205,14 @@ void vTask_HwSPI2( void *pvParameters )
                 break;
             }
 
-            case HW_SPI2_CURRENT_MEASURE_GET:
+            case HW_SPI2_ADC_GET:
             {
                 ADC_CS_0();
-
+                HwSPI2QueueData_tx.dataADC = HwSPI2_GetSingleADC();
                 ADC_CS_1();
+
+                HwSPI2QueueData_tx.stateHwSPI2 = HwSPI2QueueData_rx.stateHwSPI2;
+                xQueueSend( xQueue_HwSPI2_tx, &HwSPI2QueueData_tx, NULL );
                 break;
             }
 
@@ -325,6 +329,30 @@ static void HwSPI2_SendRelay(uint8_t *relayField, uint8_t len)
     {
         HAL_SPI_Transmit(&SPI_Handle, &relayField[i], 1, 1000);
     }
+}
+
+
+
+
+//*************************************************
+//
+// Private function
+//
+// Get single ADC
+//
+//*************************************************
+static uint16_t HwSPI2_GetSingleADC(void)
+{
+//    int32_t i = 0;
+    uint8_t temp_tx = 0xFF;
+    uint8_t temp_rx[2] = { 0x00, 0x00};
+    
+    HAL_SPI_Transmit(&SPI_Handle, &temp_tx, 1, 1000);
+    HAL_SPI_Receive(&SPI_Handle, &temp_rx[1], 1, 1000);
+
+    HAL_SPI_Transmit(&SPI_Handle, &temp_tx, 1, 1000);
+    HAL_SPI_Receive(&SPI_Handle, &temp_rx[0], 1, 1000);
+    return ((uint16_t)temp_rx[1] << 8) | ((uint16_t)temp_rx[0]);
 }
 
 /* End of file */
