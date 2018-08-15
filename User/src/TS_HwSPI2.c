@@ -20,6 +20,7 @@
 /* Include my libraries here */
 #include "TS_task.h"
 #include "TS_queue.h"
+#include "Relay.h"
 
 
 // Define macroses for CS pin for relay, leds, ADC, DAC
@@ -45,7 +46,7 @@ struct ledData {
 
 // Declare private functions
 static void HwSPI2_Init(void);
-static void HwSPI2_SendRelay(uint8_t *relayField);
+static void HwSPI2_SendRelay(uint8_t *relayField, uint8_t len);
 
 
 
@@ -55,7 +56,7 @@ static char tempString[100] = {""};
 //static struct ledData ledData;
 static GPIO_InitTypeDef GPIO_InitStructure; 
 static SPI_HandleTypeDef SPI_Handle;
-static uint8_t relayField[5];
+static uint8_t relayField[RELAY_FIELD_LENGTH];
 
 // Task
 void vTask_HwSPI2( void *pvParameters )
@@ -81,8 +82,8 @@ void vTask_HwSPI2( void *pvParameters )
 //    ledData.ledContact = 0x00;
 
 
-    RelayClearAll(relayField);
-    HwSPI2_SendRelay(relayField);
+    RelayClearAll(relayField, RELAY_FIELD_LENGTH);
+    HwSPI2_SendRelay(relayField, RELAY_FIELD_LENGTH);
 
 //    xQueueSend( xQueue_Terminal, "vTask_HwSPI2 - Run\r\n", NULL );
     while( 1 )
@@ -111,7 +112,7 @@ void vTask_HwSPI2( void *pvParameters )
                 xQueueSend( xQueue_Terminal, &tempString, NULL );
 
                 RELAY_CS_0();
-                HwSPI2_SendRelay(relayField);
+                HwSPI2_SendRelay(relayField, RELAY_FIELD_LENGTH);
                 RELAY_CS_1();
                 break;
             }
@@ -136,14 +137,14 @@ void vTask_HwSPI2( void *pvParameters )
                 xQueueSend( xQueue_Terminal, &tempString, NULL );
 
                 RELAY_CS_0();
-                HwSPI2_SendRelay(relayField);
+                HwSPI2_SendRelay(relayField, RELAY_FIELD_LENGTH);
                 RELAY_CS_1();
                 break;
             }
 
             case HW_SPI2_RELAY_CLEAR_ALL:
             {
-                RelayClearAll(relayField);
+                RelayClearAll(relayField, RELAY_FIELD_LENGTH);
 
                 sprintf(tempString, "relayField[0] - 0x%02x\r"
                                     "relayField[1] - 0x%02x\r"
@@ -158,7 +159,7 @@ void vTask_HwSPI2( void *pvParameters )
                 xQueueSend( xQueue_Terminal, &tempString, NULL );
 
                 RELAY_CS_0();
-                HwSPI2_SendRelay(relayField);
+                HwSPI2_SendRelay(relayField, RELAY_FIELD_LENGTH);
                 RELAY_CS_1();
                 break;
             }
@@ -316,11 +317,11 @@ static void HwSPI2_Init(void)
 // Send relay field
 //
 //*************************************************
-static void HwSPI2_SendRelay(uint8_t *relayField)
+static void HwSPI2_SendRelay(uint8_t *relayField, uint8_t len)
 {
     int32_t i = 0;
 
-    for (i = (sizeof(relayField) - 1); i >= 0; i--)
+    for (i = (len - 1); i >= 0; i--)
     {
         HAL_SPI_Transmit(&SPI_Handle, &relayField[i], 1, 1000);
     }
