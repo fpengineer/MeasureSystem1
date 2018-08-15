@@ -1,0 +1,6 @@
+#Ignore modules added by the repo script
+/*.pdf
+/*.chm
+/*.html
+
+#Ignore IDE generated files

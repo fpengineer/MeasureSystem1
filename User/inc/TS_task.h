@@ -48,6 +48,19 @@ enum stateFatFs {
     FATFS_IDLE 
 };
 
+enum stateHwSPI2 { 
+    HW_SPI2_RELAY_SET,
+    HW_SPI2_RELAY_CLEAR,
+    HW_SPI2_RELAY_CLEAR_ALL,
+    HW_SPI2_LEDS_SORTING_SET,
+    HW_SPI2_LEDS_CONTACT_SET,
+    HW_SPI2_LEDS_SHIFT_DOWN,
+    HW_SPI2_LEDS_CLEAR_ALL,
+    HW_SPI2_HV_SUPPLY_SET,
+    HW_SPI2_CURRENT_MEASURE_GET,
+    HW_SPI2_IDLE 
+};
+
 enum stateMainMeasure { 
     MEASURE_WAIT, 
     MEASURE_RUN, 
@@ -57,12 +70,14 @@ enum stateMainMeasure {
 };
 
 
+void vTask_Debug(void *pvParameters);
 void vTask_DebugLed(void *pvParameters);
 //void vTask_SDCardLed(void *pvParameters);
 //void vTask_StatusLed(void *pvParameters);
 //void vTask_MainMeasure(void *pvParameters);
 //void vTask_FatFs(void *pvParameters);
-//void vTask_Terminal(void *pvParameters);
+void vTask_Terminal(void *pvParameters);
+void vTask_HwSPI2(void *pvParameters);
 //void vTask_SystemTime(void *pvParameters);
 //void vTask_RunButton(void *pvParameters);
 //void vTask_SDCardDetect(void *pvParameters);

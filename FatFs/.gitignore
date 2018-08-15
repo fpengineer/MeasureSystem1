@@ -1,0 +1,6 @@
+#Ignore modules added by the repo script
+documents
+source/*.txt
+/LICENSE.TXT
+#Ignore IDE generated files
+
