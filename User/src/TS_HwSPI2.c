@@ -282,7 +282,7 @@ static void HwSPI2_Init(void)
     SPI_Handle.Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;
     SPI_Handle.Init.CRCPolynomial = 10;
     HAL_SPI_Init(&SPI_Handle);
-   
+    
 /* Initialize Realy CS: PB10 */
     GPIO_InitStructure.Pin   = GPIO_PIN_10;
     GPIO_InitStructure.Mode  = GPIO_MODE_OUTPUT_PP;
@@ -343,16 +343,11 @@ static void HwSPI2_SendRelay(uint8_t *relayField, uint8_t len)
 //*************************************************
 static uint16_t HwSPI2_GetSingleADC(void)
 {
-//    int32_t i = 0;
-    uint8_t temp_tx = 0xFF;
     uint8_t temp_rx[2] = { 0x00, 0x00};
-    
-    HAL_SPI_Transmit(&SPI_Handle, &temp_tx, 1, 1000);
-    HAL_SPI_Receive(&SPI_Handle, &temp_rx[1], 1, 1000);
+  
+    HAL_SPI_Receive(&SPI_Handle, temp_rx, 2, 1000);
 
-    HAL_SPI_Transmit(&SPI_Handle, &temp_tx, 1, 1000);
-    HAL_SPI_Receive(&SPI_Handle, &temp_rx[0], 1, 1000);
-    return ((uint16_t)temp_rx[1] << 8) | ((uint16_t)temp_rx[0]);
+    return ((uint16_t)temp_rx[0] << 8) | ((uint16_t)temp_rx[1]);
 }
 
 /* End of file */
