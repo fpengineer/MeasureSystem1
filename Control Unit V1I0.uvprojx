@@ -563,6 +563,11 @@
               <FileType>1</FileType>
               <FilePath>.\User\src\TS_Debug.c</FilePath>
             </File>
+            <File>
+              <FileName>TS_MainMeasure.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\User\src\TS_MainMeasure.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -593,16 +598,6 @@
               <FileName>Relay.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\User\src\Relay.c</FilePath>
-            </File>
-            <File>
-              <FileName>DAC_AD5620.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\User\inc\DAC_AD5620.h</FilePath>
-            </File>
-            <File>
-              <FileName>DAC_AD5620.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\User\src\DAC_AD5620.c</FilePath>
             </File>
           </Files>
         </Group>

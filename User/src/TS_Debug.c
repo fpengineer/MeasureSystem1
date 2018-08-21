@@ -32,7 +32,6 @@ void vTask_Debug( void *pvParameters )
 
 //    xQueueSend( xQueue_Terminal, "vTask_Debug - Run\r\n", NULL );
 
-
 /*
     vTaskDelay(10);
     xQueueSend( xQueue_Terminal, "\rvTask_Debug - ******** 1 **********\r\r\n", NULL );
