@@ -50,5 +50,6 @@ typedef struct {
 } HwSPI2QueueData_t;
 
 
+
 #endif /* _TS_QUEUE_H_ */
 /* End of file */

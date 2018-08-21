@@ -51,7 +51,7 @@ TaskHandle_t xTask_Debug;
 TaskHandle_t xTask_DebugLed;
 //TaskHandle_t xTask_SDCardLed;
 //TaskHandle_t xTask_StatusLed;
-//TaskHandle_t xTask_MainMeasure;
+TaskHandle_t xTask_MainMeasure;
 //TaskHandle_t xTask_FatFs;
 TaskHandle_t xTask_Terminal;
 TaskHandle_t xTask_HwSPI2_rx;
@@ -64,7 +64,7 @@ QueueHandle_t xQueue_Debug;
 QueueHandle_t xQueue_DebugLed;
 //QueueHandle_t xQueue_SDCardLed;
 //QueueHandle_t xQueue_StatusLed;
-//QueueHandle_t xQueue_MainMeasure;
+QueueHandle_t xQueue_MainMeasure;
 //QueueHandle_t xQueue_FatFsIn;
 //QueueHandle_t xQueue_FatFsOut;
 QueueHandle_t xQueue_Terminal;
@@ -113,7 +113,7 @@ int main(void) {
 	xQueue_DebugLed = xQueueCreate( 5, sizeof( enum stateDebugLed ) ); 
 //	xQueue_SDCardLed = xQueueCreate( 5, sizeof( enum stateSDCardLed ) ); 
 //	xQueue_StatusLed = xQueueCreate( 5, sizeof( enum stateStatusLed ) ); 
-//	xQueue_MainMeasure = xQueueCreate( 5, sizeof( MainMeasureQueueData_t ) ); 
+	xQueue_MainMeasure = xQueueCreate( 5, sizeof( MainMeasureQueueData_t ) ); 
 //	xQueue_FatFsIn = xQueueCreate( 10, sizeof( FatFsQueueData_t ) ); 
 //	xQueue_FatFsOut = xQueueCreate( 10, sizeof( FatFsQueueData_t ) ); 
 	xQueue_Terminal = xQueueCreate( 15, sizeof( char[500] ) ); 
@@ -154,7 +154,7 @@ int main(void) {
                                 tskIDLE_PRIORITY + 1,
                                 &xTask_StatusLed )) { ERROR_ACTION(TASK_NOT_CREATE,0); }	
 #endif
-#if 0
+#if 1
     if( pdTRUE != xTaskCreate(  vTask_MainMeasure,
                                 "Main Measure",
                                 configMINIMAL_STACK_SIZE + 5000,

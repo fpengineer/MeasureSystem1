@@ -74,7 +74,7 @@ void vTask_Debug(void *pvParameters);
 void vTask_DebugLed(void *pvParameters);
 //void vTask_SDCardLed(void *pvParameters);
 //void vTask_StatusLed(void *pvParameters);
-//void vTask_MainMeasure(void *pvParameters);
+void vTask_MainMeasure(void *pvParameters);
 //void vTask_FatFs(void *pvParameters);
 void vTask_Terminal(void *pvParameters);
 void vTask_HwSPI2(void *pvParameters);
