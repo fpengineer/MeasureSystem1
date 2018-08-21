@@ -83,7 +83,6 @@ void vTask_HwSPI2( void *pvParameters )
 //    ledData.ledBad = 0x00;
 //    ledData.ledContact = 0x00;
 
-
     RelayClearAll(relayField, RELAY_FIELD_LENGTH);
     HwSPI2_SendRelay(relayField, RELAY_FIELD_LENGTH);
 
@@ -363,7 +362,6 @@ static void HwSPI2_SetSingleDAC(uint16_t dataDAC)
     uint8_t temp_tx[2] = { 0x00, 0x00};
     temp_tx[0] = (uint8_t)(dataDAC >> 8);
     temp_tx[1] = (uint8_t)dataDAC;
-
     
     HAL_SPI_Transmit(&SPI_Handle, temp_tx, 2, 1000);
 }

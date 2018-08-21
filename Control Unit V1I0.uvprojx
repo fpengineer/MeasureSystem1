@@ -322,7 +322,7 @@
             <wLevel>2</wLevel>
             <uThumb>0</uThumb>
             <uSurpInc>0</uSurpInc>
-            <uC99>0</uC99>
+            <uC99>1</uC99>
             <useXO>0</useXO>
             <v6Lang>1</v6Lang>
             <v6LangP>1</v6LangP>
@@ -593,6 +593,16 @@
               <FileName>Relay.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\User\src\Relay.c</FilePath>
+            </File>
+            <File>
+              <FileName>DAC_AD5620.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\User\inc\DAC_AD5620.h</FilePath>
+            </File>
+            <File>
+              <FileName>DAC_AD5620.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\User\src\DAC_AD5620.c</FilePath>
             </File>
           </Files>
         </Group>
