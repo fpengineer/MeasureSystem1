@@ -44,8 +44,6 @@
 
 /* Ensure stdint is only used by the compiler, and not the assembler. */
 	#include <stdint.h>
-//    #include "stm32f2xx.h"
-//	extern uint32_t SystemCoreClock;
 
 #define configUSE_PREEMPTION			1
 #define configUSE_IDLE_HOOK				0
@@ -55,9 +53,9 @@
 #define configTICK_RATE_HZ				( ( portTickType ) 1000 )
 #define configMAX_PRIORITIES			( 5 )
 //#define configMINIMAL_STACK_SIZE		( ( unsigned short ) 130 )
-#define configMINIMAL_STACK_SIZE		( ( unsigned short ) 150 )
+#define configMINIMAL_STACK_SIZE		( ( unsigned short ) 350 )
 //#define configTOTAL_HEAP_SIZE			( ( size_t ) ( 75 * 1024 ) )
-#define configTOTAL_HEAP_SIZE			( ( size_t ) ( 50 * 1024 ) )
+#define configTOTAL_HEAP_SIZE			( ( size_t ) ( 75 * 1024 ) )
 //#define configMAX_TASK_NAME_LEN			( 10 )
 #define configMAX_TASK_NAME_LEN			( 16 )
 //#define configUSE_TRACE_FACILITY		1

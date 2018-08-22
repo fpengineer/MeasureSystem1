@@ -67,7 +67,7 @@ void vTask_Debug( void *pvParameters )
     xQueueSend( xQueue_HwSPI2_rx, &HwSPI2QueueData_rx, NULL );
 */
 
-    
+/*    
     xQueueSend( xQueue_Terminal, "vTask_Debug - Get single ADC\r\n", NULL );
 
     HwSPI2QueueData_rx.stateHwSPI2 = HW_SPI2_ADC_GET;
@@ -91,7 +91,7 @@ void vTask_Debug( void *pvParameters )
     xQueueReceive( xQueue_HwSPI2_tx, &HwSPI2QueueData_tx, portMAX_DELAY );
     sprintf ( tempString, "ADC data = 0x%04x\n\r", HwSPI2QueueData_tx.dataADC);
     xQueueSend( xQueue_Terminal, &tempString, NULL );
-  
+*/  
     
     
 	while (1)

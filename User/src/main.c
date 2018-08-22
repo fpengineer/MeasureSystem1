@@ -56,7 +56,7 @@ TaskHandle_t xTask_MainMeasure;
 TaskHandle_t xTask_Terminal;
 TaskHandle_t xTask_HwSPI2;
 //TaskHandle_t xTask_SystemTime;
-TaskHandle_t xTask_Buttons;
+TaskHandle_t xTask_HwButtons;
 //TaskHandle_t xTask_SDCardDetect;
 
 QueueHandle_t xQueue_Debug;
@@ -179,7 +179,7 @@ int main(void) {
                                 tskIDLE_PRIORITY + 1,
                                 &xTask_Terminal )) { ERROR_ACTION(TASK_NOT_CREATE,0); }	
 #endif
-#if 1	
+#if 0	
     if( pdTRUE != xTaskCreate(  vTask_HwSPI2,
                                 "HwSPI2",
                                 configMINIMAL_STACK_SIZE,
@@ -197,11 +197,11 @@ int main(void) {
 #endif
 #if 1
     if( pdTRUE != xTaskCreate(  vTask_HwButtons,
-                                "Run Button",
+                                "HwButton",
                                 configMINIMAL_STACK_SIZE,
                                 NULL,
                                 tskIDLE_PRIORITY + 1,
-                                &xTask_Buttons )) { ERROR_ACTION(TASK_NOT_CREATE,0); }	
+                                &xTask_HwButtons )) { ERROR_ACTION(TASK_NOT_CREATE,0); }	
 #endif
 #if 0
     if( pdTRUE != xTaskCreate(  vTask_SDCardDetect,

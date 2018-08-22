@@ -36,6 +36,7 @@ void vTask_HwButtons( void *pvParameters )
     extern QueueHandle_t xQueue_Terminal;
     HwButtonsQueueData_t HwButtonsQueueData;
 
+vTaskDelay(100);
     sprintf ( tempString, "vTask_HwButtons - Run\n\r");
     xQueueSend( xQueue_Terminal, &tempString, NULL );
 
@@ -45,6 +46,7 @@ void vTask_HwButtons( void *pvParameters )
 	{
         xQueueReceive( xQueue_HwButtons, &HwButtonsQueueData, portMAX_DELAY );
 
+//HAL_GPIO_TogglePin(GPIOE, GPIO_PIN_11);
         switch( HwButtonsQueueData.stateButtons )
         {
             case BUTTON_START_PRESSED:
@@ -144,26 +146,52 @@ static void HwButtons_Init(void)
 // EXTI [15:10] channels
 //
 //*************************************************
-void EXTI15_10IRQHandler(void)
+void EXTI15_10_IRQHandler(void)
 {
+    HwButtonsQueueData_t HwButtonsQueueData;
+//    static BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+    extern QueueHandle_t xQueue_HwButtons;
+//    HAL_GPIO_TogglePin(GPIOE, GPIO_PIN_11);
     HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_10);
+    HAL_GPIO_WritePin(GPIOE, GPIO_PIN_11, GPIO_PIN_SET);
+
+    HwButtonsQueueData.stateButtons = BUTTON_START_PRESSED;
+if(    !xQueueSendFromISR( xQueue_HwButtons, &HwButtonsQueueData, NULL ))
+{
+    HAL_GPIO_WritePin(GPIOE, GPIO_PIN_11, GPIO_PIN_SET);
+}//if( xHigherPriorityTaskWoken == pdTRUE )
+    {
+        /* Actual macro used here is port specific. */
+//        portYIELD_FROM_ISR( xHigherPriorityTaskWoken );
+    }
 }
+
 
 
 //*************************************************
 //
-// IRQ Handler
+// IRQ Handler callback
 //
 // EXTI [15:10] channels
 //
 //*************************************************
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 {
-    extern QueueHandle_t xQueue_HwButtons;
-    HwButtonsQueueData_t HwButtonsQueueData;
+//    extern QueueHandle_t xQueue_HwButtons;
+//    HwButtonsQueueData_t HwButtonsQueueData;
+//    BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+    
+//HAL_GPIO_TogglePin(GPIOE, GPIO_PIN_11);
 
-    HwButtonsQueueData.stateButtons = BUTTON_START_PRESSED;
-    xQueueSendFromISR( xQueue_HwButtons, &HwButtonsQueueData, NULL );
+
+
+//    HwButtonsQueueData.stateButtons = BUTTON_START_PRESSED;
+//    xQueueSendFromISR( xQueue_HwButtons, &HwButtonsQueueData, &xHigherPriorityTaskWoken );
+//if( xHigherPriorityTaskWoken )
+    {
+        /* Actual macro used here is port specific. */
+//        portYIELD_FROM_ISR( xHigherPriorityTaskWoken );
+    }
 }
 
 /* End of file */
