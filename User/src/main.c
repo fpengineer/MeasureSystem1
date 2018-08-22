@@ -54,10 +54,9 @@ TaskHandle_t xTask_DebugLed;
 TaskHandle_t xTask_MainMeasure;
 //TaskHandle_t xTask_FatFs;
 TaskHandle_t xTask_Terminal;
-TaskHandle_t xTask_HwSPI2_rx;
-TaskHandle_t xTask_HwSPI2_tx;
+TaskHandle_t xTask_HwSPI2;
 //TaskHandle_t xTask_SystemTime;
-//TaskHandle_t xTask_RunButton;
+TaskHandle_t xTask_Buttons;
 //TaskHandle_t xTask_SDCardDetect;
 
 QueueHandle_t xQueue_Debug;
@@ -70,6 +69,7 @@ QueueHandle_t xQueue_MainMeasure;
 QueueHandle_t xQueue_Terminal;
 QueueHandle_t xQueue_HwSPI2_rx;
 QueueHandle_t xQueue_HwSPI2_tx;
+QueueHandle_t xQueue_HwButtons;
 //QueueHandle_t xQueue_SystemTimeIn;
 //QueueHandle_t xQueue_SystemTimeOut;
 
@@ -119,6 +119,7 @@ int main(void) {
 	xQueue_Terminal = xQueueCreate( 15, sizeof( char[500] ) ); 
 	xQueue_HwSPI2_rx = xQueueCreate( 5, sizeof( HwSPI2QueueData_t ) ); 
 	xQueue_HwSPI2_tx = xQueueCreate( 5, sizeof( HwSPI2QueueData_t ) ); 
+	xQueue_HwButtons = xQueueCreate( 5, sizeof( HwButtonsQueueData_t ) ); 
 //	xQueue_SystemTimeIn = xQueueCreate( 5, sizeof( SystemTimeQueueData_t ) ); 
 //	xQueue_SystemTimeOut = xQueueCreate( 5, sizeof( SystemTimeQueueData_t ) ); 
 
@@ -184,7 +185,7 @@ int main(void) {
                                 configMINIMAL_STACK_SIZE,
                                 NULL,
                                 tskIDLE_PRIORITY + 1,
-                                &xTask_Terminal )) { ERROR_ACTION(TASK_NOT_CREATE,0); }	
+                                &xTask_HwSPI2 )) { ERROR_ACTION(TASK_NOT_CREATE,0); }	
 #endif
 #if 0
     if( pdTRUE != xTaskCreate(  vTask_SystemTime,
@@ -194,13 +195,13 @@ int main(void) {
                                 tskIDLE_PRIORITY + 1,
                                 &xTask_SystemTime )) { ERROR_ACTION(TASK_NOT_CREATE,0); }	
 #endif
-#if 0
-    if( pdTRUE != xTaskCreate(  vTask_RunButton,
+#if 1
+    if( pdTRUE != xTaskCreate(  vTask_HwButtons,
                                 "Run Button",
                                 configMINIMAL_STACK_SIZE,
                                 NULL,
                                 tskIDLE_PRIORITY + 1,
-                                &xTask_RunButton )) { ERROR_ACTION(TASK_NOT_CREATE,0); }	
+                                &xTask_Buttons )) { ERROR_ACTION(TASK_NOT_CREATE,0); }	
 #endif
 #if 0
     if( pdTRUE != xTaskCreate(  vTask_SDCardDetect,

@@ -69,6 +69,20 @@ enum stateMainMeasure {
     MEASURE_IDLE
 };
 
+enum stateButtons { 
+    BUTTON_START_PRESSED, 
+    BUTTON_STOP_PRESSED, 
+    BUTTON_MODE_PRESSED, 
+    BUTTON_MENU1_PRESSED, 
+    BUTTON_MENU2_PRESSED, 
+    BUTTON_MENU3_PRESSED, 
+    BUTTON_MENU4_PRESSED, 
+    BUTTON_ENCODER_PRESSED, 
+    BUTTON_ENCODER_CLOCKWISE_ROTATED, 
+    BUTTON_ENCODER_COUNTERCLOCKWISE_ROTATED, 
+    BUTTON_IDLE
+};
+
 
 void vTask_Debug(void *pvParameters);
 void vTask_DebugLed(void *pvParameters);
@@ -79,7 +93,7 @@ void vTask_MainMeasure(void *pvParameters);
 void vTask_Terminal(void *pvParameters);
 void vTask_HwSPI2(void *pvParameters);
 //void vTask_SystemTime(void *pvParameters);
-//void vTask_RunButton(void *pvParameters);
+void vTask_HwButtons(void *pvParameters);
 //void vTask_SDCardDetect(void *pvParameters);
 
 #endif /* _TS_TASK_H_ */
