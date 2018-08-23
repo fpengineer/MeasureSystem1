@@ -109,7 +109,6 @@ int main(void) {
 
     OutputMCO();
     
-	xQueue_DebugLed = xQueueCreate( 5, sizeof( uint8_t ) ); 
 	xQueue_DebugLed = xQueueCreate( 5, sizeof( enum stateDebugLed ) ); 
 //	xQueue_SDCardLed = xQueueCreate( 5, sizeof( enum stateSDCardLed ) ); 
 //	xQueue_StatusLed = xQueueCreate( 5, sizeof( enum stateStatusLed ) ); 
@@ -179,7 +178,7 @@ int main(void) {
                                 tskIDLE_PRIORITY + 1,
                                 &xTask_Terminal )) { ERROR_ACTION(TASK_NOT_CREATE,0); }	
 #endif
-#if 0	
+#if 1	
     if( pdTRUE != xTaskCreate(  vTask_HwSPI2,
                                 "HwSPI2",
                                 configMINIMAL_STACK_SIZE,

@@ -36,7 +36,7 @@ void vTask_HwButtons( void *pvParameters )
     extern QueueHandle_t xQueue_Terminal;
     HwButtonsQueueData_t HwButtonsQueueData;
 
-vTaskDelay(100);
+    vTaskDelay(100);
     sprintf ( tempString, "vTask_HwButtons - Run\n\r");
     xQueueSend( xQueue_Terminal, &tempString, NULL );
 
@@ -51,8 +51,12 @@ vTaskDelay(100);
         {
             case BUTTON_START_PRESSED:
             {
-                sprintf ( tempString, "vTask_HwButtons - BUTTON_START_PRESSED\n\r");
-                xQueueSend( xQueue_Terminal, &tempString, NULL );
+                vTaskDelay(100);
+                if ( !HAL_GPIO_ReadPin(GPIOD, GPIO_PIN_10) )
+                {
+                    sprintf ( tempString, "vTask_HwButtons - BUTTON_START_PRESSED\n\r" );
+                    xQueueSend( xQueue_Terminal, &tempString, NULL );
+                }
                 break;
             }
 
@@ -134,7 +138,7 @@ static void HwButtons_Init(void)
     GPIO_InitStructure.Pull  = GPIO_PULLUP;
     HAL_GPIO_Init(GPIOD, &GPIO_InitStructure);
 
-    HAL_NVIC_SetPriority(EXTI15_10_IRQn, 0, 0);
+    HAL_NVIC_SetPriority(EXTI15_10_IRQn, 15, 0);
     HAL_NVIC_EnableIRQ(EXTI15_10_IRQn);
 }
 
@@ -148,22 +152,11 @@ static void HwButtons_Init(void)
 //*************************************************
 void EXTI15_10_IRQHandler(void)
 {
-    HwButtonsQueueData_t HwButtonsQueueData;
-//    static BaseType_t xHigherPriorityTaskWoken = pdFALSE;
     extern QueueHandle_t xQueue_HwButtons;
-//    HAL_GPIO_TogglePin(GPIOE, GPIO_PIN_11);
+    HwButtonsQueueData_t HwButtonsQueueData;
     HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_10);
-    HAL_GPIO_WritePin(GPIOE, GPIO_PIN_11, GPIO_PIN_SET);
-
     HwButtonsQueueData.stateButtons = BUTTON_START_PRESSED;
-if(    !xQueueSendFromISR( xQueue_HwButtons, &HwButtonsQueueData, NULL ))
-{
-    HAL_GPIO_WritePin(GPIOE, GPIO_PIN_11, GPIO_PIN_SET);
-}//if( xHigherPriorityTaskWoken == pdTRUE )
-    {
-        /* Actual macro used here is port specific. */
-//        portYIELD_FROM_ISR( xHigherPriorityTaskWoken );
-    }
+    xQueueSendFromISR( xQueue_HwButtons, &HwButtonsQueueData, NULL );
 }
 
 
@@ -177,21 +170,12 @@ if(    !xQueueSendFromISR( xQueue_HwButtons, &HwButtonsQueueData, NULL ))
 //*************************************************
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 {
-//    extern QueueHandle_t xQueue_HwButtons;
-//    HwButtonsQueueData_t HwButtonsQueueData;
-//    BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+    extern QueueHandle_t xQueue_HwButtons;
+    HwButtonsQueueData_t HwButtonsQueueData;
     
-//HAL_GPIO_TogglePin(GPIOE, GPIO_PIN_11);
 
-
-
-//    HwButtonsQueueData.stateButtons = BUTTON_START_PRESSED;
-//    xQueueSendFromISR( xQueue_HwButtons, &HwButtonsQueueData, &xHigherPriorityTaskWoken );
-//if( xHigherPriorityTaskWoken )
-    {
-        /* Actual macro used here is port specific. */
-//        portYIELD_FROM_ISR( xHigherPriorityTaskWoken );
-    }
+    HwButtonsQueueData.stateButtons = BUTTON_START_PRESSED;
+    xQueueSendFromISR( xQueue_HwButtons, &HwButtonsQueueData, NULL );
 }
 
 /* End of file */

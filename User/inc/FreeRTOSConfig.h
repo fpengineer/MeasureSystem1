@@ -53,7 +53,7 @@
 #define configTICK_RATE_HZ				( ( portTickType ) 1000 )
 #define configMAX_PRIORITIES			( 5 )
 //#define configMINIMAL_STACK_SIZE		( ( unsigned short ) 130 )
-#define configMINIMAL_STACK_SIZE		( ( unsigned short ) 350 )
+#define configMINIMAL_STACK_SIZE		( ( unsigned short ) 256 )
 //#define configTOTAL_HEAP_SIZE			( ( size_t ) ( 75 * 1024 ) )
 #define configTOTAL_HEAP_SIZE			( ( size_t ) ( 75 * 1024 ) )
 //#define configMAX_TASK_NAME_LEN			( 10 )
@@ -85,7 +85,7 @@ to exclude the API function. */
 #define INCLUDE_vTaskPrioritySet		1
 #define INCLUDE_uxTaskPriorityGet		1
 #define INCLUDE_vTaskDelete				1
-#define INCLUDE_vTaskCleanUpResources	1
+#define INCLUDE_vTaskCleanUpResources	0
 #define INCLUDE_vTaskSuspend			1
 #define INCLUDE_vTaskDelayUntil			1
 #define INCLUDE_vTaskDelay				1
