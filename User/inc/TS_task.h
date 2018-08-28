@@ -69,6 +69,7 @@ enum stateMainMeasure {
     MEASURE_IDLE
 };
 
+/*
 enum stateButtons { 
     BUTTON_START_PRESSED, 
     BUTTON_STOP_PRESSED, 
@@ -82,7 +83,7 @@ enum stateButtons {
     BUTTON_ENCODER_COUNTERCLOCKWISE_ROTATED, 
     BUTTON_IDLE
 };
-
+*/
 
 void vTask_Debug(void *pvParameters);
 void vTask_DebugLed(void *pvParameters);

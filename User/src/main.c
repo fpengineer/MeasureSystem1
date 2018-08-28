@@ -69,7 +69,6 @@ QueueHandle_t xQueue_MainMeasure;
 QueueHandle_t xQueue_Terminal;
 QueueHandle_t xQueue_HwSPI2_rx;
 QueueHandle_t xQueue_HwSPI2_tx;
-QueueHandle_t xQueue_HwButtons;
 //QueueHandle_t xQueue_SystemTimeIn;
 //QueueHandle_t xQueue_SystemTimeOut;
 
@@ -118,7 +117,6 @@ int main(void) {
 	xQueue_Terminal = xQueueCreate( 15, sizeof( char[500] ) ); 
 	xQueue_HwSPI2_rx = xQueueCreate( 5, sizeof( HwSPI2QueueData_t ) ); 
 	xQueue_HwSPI2_tx = xQueueCreate( 5, sizeof( HwSPI2QueueData_t ) ); 
-	xQueue_HwButtons = xQueueCreate( 5, sizeof( HwButtonsQueueData_t ) ); 
 //	xQueue_SystemTimeIn = xQueueCreate( 5, sizeof( SystemTimeQueueData_t ) ); 
 //	xQueue_SystemTimeOut = xQueueCreate( 5, sizeof( SystemTimeQueueData_t ) ); 
 

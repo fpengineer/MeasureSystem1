@@ -50,9 +50,6 @@ typedef struct {
     uint16_t dataDAC;
 } HwSPI2QueueData_t;
 
-typedef struct {
-    enum stateButtons stateButtons;
-} HwButtonsQueueData_t;
 
 
 #endif /* _TS_QUEUE_H_ */

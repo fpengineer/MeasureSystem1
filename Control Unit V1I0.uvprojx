@@ -573,6 +573,11 @@
               <FileType>1</FileType>
               <FilePath>.\User\src\TS_HwButtons.c</FilePath>
             </File>
+            <File>
+              <FileName>projectDefs.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\User\inc\projectDefs.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -615,6 +620,9 @@
               <FilePath>.\User\src\DAC_AD5620.c</FilePath>
             </File>
           </Files>
+        </Group>
+        <Group>
+          <GroupName>ISR</GroupName>
         </Group>
       </Groups>
     </Target>
