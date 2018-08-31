@@ -17,7 +17,7 @@
 
 #define RELAY_FIELD_LENGTH         5
 #define RELAY_BANK_SIZE            8
-#define RELAY_COUNT_PER_BANK       (RELAY_BANK_SIZE - 1) 
+#define RELAY_COUNT_PER_BANK       ( RELAY_BANK_SIZE - 1 ) 
 
 // Define common number relays
 #define POS_RELAY_K1        0x02
@@ -59,6 +59,14 @@
 #define POS_RELAY_K33       0x20
 #define POS_RELAY_K34       0x40
 #define POS_RELAY_K35       0x80
+
+
+
+#define CONTACT_MOTOR           "K21, "
+#define HOLD_UP                 "K26, "
+#define HOLD_DOWN               "K22, "
+#define VIBRATION_MOTOR         "K28, "
+#define SORTING_SHADE           "K24, "
 
 
 // Define specific relays

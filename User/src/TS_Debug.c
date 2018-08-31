@@ -29,76 +29,61 @@ void vTask_Debug( void *pvParameters )
     extern QueueHandle_t xQueue_HwSPI2_tx;
     HwSPI2QueueData_t HwSPI2QueueData_rx;
     HwSPI2QueueData_t HwSPI2QueueData_tx;
-
-//    xQueueSend( xQueue_Terminal, "vTask_Debug - Run\r\n", NULL );
+    int i = 0;
+    
+    xQueueSend( xQueue_Terminal, "vTask_Debug - Run\r\n", NULL );
 
 /*
-    vTaskDelay(10);
-    xQueueSend( xQueue_Terminal, "\rvTask_Debug - ******** 1 **********\r\r\n", NULL );
-    vTaskDelay(1000);
+    xQueueSend( xQueue_Terminal, "vTask_Debug - Contact motor\r\n", NULL );
 
+    for ( i = 0; i < 500; i++ )
+    {
+        HwSPI2QueueData_rx.stateHwSPI2 = HW_SPI2_RELAY_SET;
+        sprintf ( HwSPI2QueueData_rx.relayList, "K28");
+        xQueueSend( xQueue_HwSPI2_rx, &HwSPI2QueueData_rx, NULL );
 
-    xQueueSend( xQueue_Terminal, "vTask_Debug - Set relay\r\n", NULL );
-    HwSPI2QueueData_rx.stateHwSPI2 = HW_SPI2_RELAY_SET;
-//    sprintf ( HwSPI2QueueData_rx.relayList, "K1, K2, K3, K8, K9, K10, K15, K16, R17");
-    sprintf ( HwSPI2QueueData_rx.relayList, "K1, K2, K3, K8, K16, K24, K32");
+        vTaskDelay(1000);
+
+        HwSPI2QueueData_rx.stateHwSPI2 = HW_SPI2_RELAY_CLEAR;
+        sprintf ( HwSPI2QueueData_rx.relayList, "K28");
+        xQueueSend( xQueue_HwSPI2_rx, &HwSPI2QueueData_rx, NULL );
+
+        vTaskDelay(1000);
+    }
+*/   
+    
+        vTaskDelay(1000);
+
+    xQueueSend( xQueue_Terminal, "vTask_Debug - DAC\r\n", NULL );
+
+        HwSPI2QueueData_rx.stateHwSPI2 = HW_SPI2_DAC_SET;
+     HwSPI2QueueData_rx.dataDAC = ((uint16_t)(( 200.0f - 32.01f ) / ( 218.0f / 3474.0f )) + 478 ) << 1 ;
+//     HwSPI2QueueData_rx.dataDAC = 3952 << 1 ;
     xQueueSend( xQueue_HwSPI2_rx, &HwSPI2QueueData_rx, NULL );
 
 
-    vTaskDelay(10);
-    xQueueSend( xQueue_Terminal, "\rvTask_Debug - ******** 2 **********\r\r\n", NULL );
-    vTaskDelay(1000);
+    while (1)
+	{
 
+/*
 
-    xQueueSend( xQueue_Terminal, "vTask_Debug - Clear relay\r\n", NULL );
-    HwSPI2QueueData_rx.stateHwSPI2 = HW_SPI2_RELAY_CLEAR;
-    sprintf ( HwSPI2QueueData_rx.relayList, "K8, K16");
+        for ( i = 0; i < 4096; i++ )
+    {
+        HwSPI2QueueData_rx.stateHwSPI2 = HW_SPI2_DAC_SET;
+     HwSPI2QueueData_rx.dataDAC = i << 1;
     xQueueSend( xQueue_HwSPI2_rx, &HwSPI2QueueData_rx, NULL );
 
+    vTaskDelay(1);
+        //                sprintf(tempString, "i = %d\r", i);
+//                xQueueSend( xQueue_Terminal, &tempString, NULL );
 
-    vTaskDelay(10);
-    xQueueSend( xQueue_Terminal, "\rvTask_Debug - ******** 3 **********\r\r\n", NULL );
-    vTaskDelay(1000);
-
-
-    xQueueSend( xQueue_Terminal, "vTask_Debug - Clear all relay\r\n", NULL );
-    HwSPI2QueueData_rx.stateHwSPI2 = HW_SPI2_RELAY_CLEAR_ALL;
-//    sprintf ( HwSPI2QueueData_rx.relayList, "K4, K12");
-    xQueueSend( xQueue_HwSPI2_rx, &HwSPI2QueueData_rx, NULL );
+    }
 */
 
-/*    
-    xQueueSend( xQueue_Terminal, "vTask_Debug - Get single ADC\r\n", NULL );
-
-    HwSPI2QueueData_rx.stateHwSPI2 = HW_SPI2_ADC_GET;
-    xQueueSend( xQueue_HwSPI2_rx, &HwSPI2QueueData_rx, NULL );
-    xQueueReceive( xQueue_HwSPI2_tx, &HwSPI2QueueData_tx, portMAX_DELAY );
-    sprintf ( tempString, "ADC data = 0x%04x\n\r", HwSPI2QueueData_tx.dataADC);
-    xQueueSend( xQueue_Terminal, &tempString, NULL );
-
-    vTaskDelay(1000);
-
-    HwSPI2QueueData_rx.stateHwSPI2 = HW_SPI2_ADC_GET;
-    xQueueSend( xQueue_HwSPI2_rx, &HwSPI2QueueData_rx, NULL );
-    xQueueReceive( xQueue_HwSPI2_tx, &HwSPI2QueueData_tx, portMAX_DELAY );
-    sprintf ( tempString, "ADC data = 0x%04x\n\r", HwSPI2QueueData_tx.dataADC);
-    xQueueSend( xQueue_Terminal, &tempString, NULL );
-  
-    vTaskDelay(1000);
-
-    HwSPI2QueueData_rx.stateHwSPI2 = HW_SPI2_ADC_GET;
-    xQueueSend( xQueue_HwSPI2_rx, &HwSPI2QueueData_rx, NULL );
-    xQueueReceive( xQueue_HwSPI2_tx, &HwSPI2QueueData_tx, portMAX_DELAY );
-    sprintf ( tempString, "ADC data = 0x%04x\n\r", HwSPI2QueueData_tx.dataADC);
-    xQueueSend( xQueue_Terminal, &tempString, NULL );
-*/  
-    
-    
-	while (1)
-	{
+    }
       
     }
-}
+
 
 
 /* End of file */
