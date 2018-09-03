@@ -14,6 +14,8 @@ uint16_t HVSupply_CalculateDAC( float value )
 {
     int32_t temp = 0;
 
+    value = HV_CALIBRATION_SLOPE * value + HV_CALIBRATION_OFFSET;
+    
     temp = (int32_t)( ( ( value - HV_LOW_LIMIT_V ) /
                       ( ( HV_HIGH_LIMIT_V - HV_LOW_LIMIT_V ) / ( HV_HIGH_LIMIT_DAC - HV_LOW_LIMIT_DAC ) ) ) + 
                           HV_LOW_LIMIT_DAC );
