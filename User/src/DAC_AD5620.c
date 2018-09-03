@@ -10,11 +10,13 @@
 #include "DAC_AD5620.h" 
 
 
-uint16_t DAC_AD5620_CalculateDAC( float value, float range )
+uint16_t HVSupply_CalculateDAC( float value )
 {
     int32_t temp = 0;
-    
-    temp = (int32_t) ( roundf( ( value * AD5620_12_BIT_COUNTS ) / range ) );
+
+    temp = (int32_t)( ( ( value - HV_LOW_LIMIT_V ) /
+                      ( ( HV_HIGH_LIMIT_V - HV_LOW_LIMIT_V ) / ( HV_HIGH_LIMIT_DAC - HV_LOW_LIMIT_DAC ) ) ) + 
+                          HV_LOW_LIMIT_DAC );
 
     if( temp >= ( AD5620_MAX_VALUE + 1 ) )
     {
@@ -25,7 +27,7 @@ uint16_t DAC_AD5620_CalculateDAC( float value, float range )
         temp = 0;
     }
     
-    return (uint16_t) temp;
+    return (uint16_t)( temp << 1 );
 }
 
 /* End of file */

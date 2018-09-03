@@ -19,7 +19,17 @@
 
 #define AD5620_12_BIT_COUNTS    4096.0f
 
-uint16_t DAC_AD5620_CalculateDAC( float value, float range );
+#define HV_LOW_LIMIT_V            32.01f
+#define HV_HIGH_LIMIT_V           250.01f
+
+#define HV_LOW_LIMIT_DAC          478.0f
+#define HV_HIGH_LIMIT_DAC         3952.0f
+
+#define HV_CALIBRATION_SLOPE      0.999f
+#define HV_CALIBRATION_OFFSET     2.2f
+
+
+uint16_t HVSupply_CalculateDAC( float value );
 
 #endif /* _DAC_AD5620_H_ */
 /* End of file */
