@@ -69,6 +69,19 @@ enum stateMainMeasure {
     MEASURE_IDLE
 };
 
+enum stateICMechanic { 
+    IC_MECHANIC_LOAD, 
+    IC_MECHANIC_UNLOAD_SINGLE, 
+    IC_MECHANIC_UNLOAD_ALL, 
+    IC_MECHANIC_VIBRATION_ON, 
+    IC_MECHANIC_VIBRATION_OFF, 
+    IC_MECHANIC_CONTACT_ON, 
+    IC_MECHANIC_CONTACT_OFF, 
+    IC_MECHANIC_SORTING_GOOD, 
+    IC_MECHANIC_SORTING_BAD, 
+    IC_MECHANIC_IDLE
+};
+
 /*
 enum stateButtons { 
     BUTTON_START_PRESSED, 
@@ -95,6 +108,7 @@ void vTask_Terminal(void *pvParameters);
 void vTask_HwSPI2(void *pvParameters);
 //void vTask_SystemTime(void *pvParameters);
 void vTask_HwButtons(void *pvParameters);
+void vTask_ICMechanic(void *pvParameters);
 //void vTask_SDCardDetect(void *pvParameters);
 
 #endif /* _TS_TASK_H_ */

@@ -57,6 +57,7 @@ TaskHandle_t xTask_Terminal;
 TaskHandle_t xTask_HwSPI2;
 //TaskHandle_t xTask_SystemTime;
 TaskHandle_t xTask_HwButtons;
+TaskHandle_t xTask_ICMechanic;
 //TaskHandle_t xTask_SDCardDetect;
 
 QueueHandle_t xQueue_Debug;
@@ -69,6 +70,8 @@ QueueHandle_t xQueue_MainMeasure;
 QueueHandle_t xQueue_Terminal;
 QueueHandle_t xQueue_HwSPI2_rx;
 QueueHandle_t xQueue_HwSPI2_tx;
+QueueHandle_t xQueue_ICMechanic_rx;
+QueueHandle_t xQueue_ICMechanic_tx;
 //QueueHandle_t xQueue_SystemTimeIn;
 //QueueHandle_t xQueue_SystemTimeOut;
 
@@ -117,6 +120,7 @@ int main(void) {
 	xQueue_Terminal = xQueueCreate( 15, sizeof( char[500] ) ); 
 	xQueue_HwSPI2_rx = xQueueCreate( 5, sizeof( HwSPI2QueueData_t ) ); 
 	xQueue_HwSPI2_tx = xQueueCreate( 5, sizeof( HwSPI2QueueData_t ) ); 
+	xQueue_ICMechanic_rx = xQueueCreate( 15, sizeof( ICMechanicQueueData_t ) ); 
 //	xQueue_SystemTimeIn = xQueueCreate( 5, sizeof( SystemTimeQueueData_t ) ); 
 //	xQueue_SystemTimeOut = xQueueCreate( 5, sizeof( SystemTimeQueueData_t ) ); 
 
@@ -199,6 +203,14 @@ int main(void) {
                                 NULL,
                                 tskIDLE_PRIORITY + 1,
                                 &xTask_HwButtons )) { ERROR_ACTION(TASK_NOT_CREATE,0); }	
+#endif
+#if 1
+    if( pdTRUE != xTaskCreate(  vTask_ICMechanic,
+                                "IC Mechanic",
+                                configMINIMAL_STACK_SIZE,
+                                NULL,
+                                tskIDLE_PRIORITY + 1,
+                                &xTask_ICMechanic )) { ERROR_ACTION(TASK_NOT_CREATE,0); }	
 #endif
 #if 0
     if( pdTRUE != xTaskCreate(  vTask_SDCardDetect,
