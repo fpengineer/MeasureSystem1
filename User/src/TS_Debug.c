@@ -19,6 +19,8 @@
 #include "TS_task.h"
 #include "TS_queue.h"
 
+#include "DAC_AD5620.h"
+
 static char tempString[100] = {""};
 
 void vTask_Debug( void *pvParameters )
@@ -30,6 +32,7 @@ void vTask_Debug( void *pvParameters )
     HwSPI2QueueData_t HwSPI2QueueData_rx;
     HwSPI2QueueData_t HwSPI2QueueData_tx;
     int i = 0;
+    float dacValue;
     
     xQueueSend( xQueue_Terminal, "vTask_Debug - Run\r\n", NULL );
 
@@ -54,31 +57,40 @@ void vTask_Debug( void *pvParameters )
     
         vTaskDelay(1000);
 
-    xQueueSend( xQueue_Terminal, "vTask_Debug - DAC\r\n", NULL );
 
-        HwSPI2QueueData_rx.stateHwSPI2 = HW_SPI2_DAC_SET;
-     HwSPI2QueueData_rx.dataDAC = ((uint16_t)(( 200.0f - 32.01f ) / ( 218.0f / 3474.0f )) + 478 ) << 1 ;
+#define DAC_VALUE       40.0f
+xQueueSend( xQueue_Terminal, "vTask_Debug - DAC\r\n", NULL );
+
+
+        dacValue = 0.999f * DAC_VALUE + 2.2f;
+HwSPI2QueueData_rx.stateHwSPI2 = HW_SPI2_DAC_SET;
+     HwSPI2QueueData_rx.dataDAC = HVSupply_CalculateDAC( DAC_VALUE ) ;
+//     HwSPI2QueueData_rx.dataDAC = ((uint16_t)(( dacValue - 32.01f ) / ( 218.0f / 3474.0f )) + 478 ) << 1 ;
 //     HwSPI2QueueData_rx.dataDAC = 3952 << 1 ;
     xQueueSend( xQueue_HwSPI2_rx, &HwSPI2QueueData_rx, NULL );
 
+        vTaskDelay(10000);
 
     while (1)
 	{
 
-/*
 
-        for ( i = 0; i < 4096; i++ )
+
+        for ( i = 50; i < 260; i += 10 )
     {
+//        dacValue = 0.999f * (float)i + 2.2f;
         HwSPI2QueueData_rx.stateHwSPI2 = HW_SPI2_DAC_SET;
-     HwSPI2QueueData_rx.dataDAC = i << 1;
+//     HwSPI2QueueData_rx.dataDAC = i << 1;
+//     HwSPI2QueueData_rx.dataDAC = ((uint16_t)(( dacValue - 32.01f ) / ( 218.0f / 3474.0f )) + 478 ) << 1 ;
+     HwSPI2QueueData_rx.dataDAC = HVSupply_CalculateDAC( dacValue ) ;
     xQueueSend( xQueue_HwSPI2_rx, &HwSPI2QueueData_rx, NULL );
 
-    vTaskDelay(1);
+    vTaskDelay(10000);
         //                sprintf(tempString, "i = %d\r", i);
 //                xQueueSend( xQueue_Terminal, &tempString, NULL );
 
     }
-*/
+
 
     }
       
